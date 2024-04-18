@@ -27,11 +27,11 @@ const Register = () => {
   return (
     <>
       <Header />
-      <div className="flex justify-center items-center h-screen">
-        <div className="bg-white p-8 rounded-lg shadow-lg flex">
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg flex flex-col lg:flex-row">
           {/* Left Part */}
-          <div className="w-1/2 pr-4">
-            <h2 className="text-2xl font-semibold mb-4">Regjistrohu</h2>
+          <div className="lg:w-1/2 pr-4">
+            <h2 className="text-2xl font-semibold mb-4 text-center lg:text-left">Regjistrohu</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block">Emri:</label>
@@ -69,7 +69,7 @@ const Register = () => {
             </form>
           </div>
           {/* Right Part */}
-          <div className="w-1/2 pl-4 mt-12">
+          <div className="lg:w-1/2 pl-4 mt-4 lg:mt-0">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="password" className="block">Fjalëkalimi:</label>
@@ -123,7 +123,7 @@ const Register = () => {
                 Regjistrohu
               </button>
             </form>
-            <div className="mt-4 text-center">
+            <div className="mt-4 text-center lg:text-left">
               <span className="text-gray-600">Posedoni një llogari?</span>
               <Link to="/login" className="text-blue-500 hover:underline ml-1">Kyqu</Link>
             </div>

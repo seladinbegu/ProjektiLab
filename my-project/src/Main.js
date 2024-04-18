@@ -15,7 +15,7 @@ const Main = () => {
           {/* Featured Books Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Sample Book Card */}
-            <div className="bg-white shadow-md rounded-lg p-1">
+            <div className="bg-white shadow-md rounded-lg p-3 hover:bg-gray-200 duration-200 ease-in-out">
               <img src={gjeneraliishtrisesevdekur} alt="Book Cover" className="w-1/2 mx-auto" />
               <div className="mt-4">
                 <h3 className="text-xl font-semibold">Gjenerali i Ushtrisë së Vdekur</h3>
@@ -26,7 +26,9 @@ const Main = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-white shadow-md rounded-lg p-1">
+
+
+            <div className="bg-white shadow-md rounded-lg p-3 hover:bg-gray-200 duration-200 ease-in-out">
               <img src={babatomori} alt="Book Cover" className="w-1/2 mx-auto" />
               <div className="mt-4">
                 <h3 className="text-xl font-semibold">Baba Tomori</h3>
@@ -34,6 +36,9 @@ const Main = () => {
                 <p>Statusi: <span className="text-red-600 font-bold italic"> I Zënë deri më: 25/04/2024</span></p>
               </div>
             </div>
+
+
+
           </div>
         </section>
 

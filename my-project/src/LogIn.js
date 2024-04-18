@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
 const LogIn = () => {
-  // Define state to store form input values
   const [cardNumber, setCardNumber] = useState('');
   const [password, setPassword] = useState('');
 
-  // Function to handle form submission
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    // Do something with the form data, such as sending it to a server
+    event.preventDefault();
     console.log('Submitted:', { cardNumber, password });
-    // Clear form fields after submission
     setCardNumber('');
     setPassword('');
   };
@@ -21,9 +17,9 @@ const LogIn = () => {
   return (
     <>
       <Header />
-      <div className="flex justify-center items-center h-screen">
-        <div className="bg-white p-8 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold mb-4">Kyqu</h2>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-semibold mb-4 text-center">Kyqu</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="cardnumber" className="block">Numri i kartës:</label>
@@ -32,7 +28,7 @@ const LogIn = () => {
                 pattern="[0-9]*"
                 inputMode="numeric"
                 id="cardnumber"
-                value={cardNumber}
+                value={cardNumber}                 
                 onChange={(event) => setCardNumber(event.target.value)}
                 required
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
