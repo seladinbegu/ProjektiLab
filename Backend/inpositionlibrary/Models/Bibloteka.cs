@@ -8,7 +8,7 @@ namespace inpositionlibrary.Models
 {
     public class Bibloteka
     {
-        [Key]
+        [Key] // PrimaryKey
         public string Pika {get; set;} = string.Empty;
 
         public string Adresa {get; set;} = string.Empty;

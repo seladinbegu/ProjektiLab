@@ -5,6 +5,7 @@ import Footer from "./Footer";
 
 const LogIn = () => {
   const [cardNumber, setCardNumber] = useState('');
+  
   const [password, setPassword] = useState('');
 
   const handleSubmit = (event) => {

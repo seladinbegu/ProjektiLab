@@ -4470,11 +4470,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\begus\\OneDrive\\Desktop\\Backend\\inpositionlibrary\\inpositionlibrary.csproj",
+      "projectUniqueName": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\inpositionlibrary\\inpositionlibrary.csproj",
       "projectName": "inpositionlibrary",
-      "projectPath": "C:\\Users\\begus\\OneDrive\\Desktop\\Backend\\inpositionlibrary\\inpositionlibrary.csproj",
+      "projectPath": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\inpositionlibrary\\inpositionlibrary.csproj",
       "packagesPath": "C:\\Users\\begus\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\begus\\OneDrive\\Desktop\\Backend\\inpositionlibrary\\obj\\",
+      "outputPath": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\inpositionlibrary\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\begus\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -34,22 +34,22 @@ namespace inpositionlibrary.Controllers
         }
 
         // GET: api/Punetori/emri/JohnDoe
-        [HttpGet("emri/{emri}")]
-        public IActionResult GetByName(string emri)
+        [HttpGet("emri/{emri}")] // Endpoints
+        public IActionResult GetByName([FromRoute]string emri)
         {
             var punetori = context.Punetori.FirstOrDefault(p => p.Emri == emri);
             return punetori == null ? (IActionResult)NotFound() : Ok(punetori);
         }
 
        [HttpGet("pika/{pika}")]
-public IActionResult GetByPika(string pika)
+public IActionResult GetByPika([FromRoute]string pika)
 {
     var punetori = context.Punetori.Where(p => p.BiblotekaPika == pika).ToList();
     return punetori.Count == 0 ? (IActionResult)NotFound() : Ok(punetori);
 }
 
         [HttpGet("pozicioni/{pozicioni}")]
-public IActionResult GetByPozicioni(string pozicioni)
+public IActionResult GetByPozicioni([FromRoute]string pozicioni)
 {
     var punetori = context.Punetori.Where(p => p.Pozicioni == pozicioni).ToList();
     return punetori.Count == 0 ? (IActionResult)NotFound() : Ok(punetori);

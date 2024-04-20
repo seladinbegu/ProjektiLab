@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rXgrGue4y5DpLMmjrOJS+BRuTGnORfdTg5hCIoronSnE7KzzCUS8BBjWyNshP6tly6T68+LdG8Qn06GiuYEKlQ==",
+  "dgSpecHash": "5RAmvW+Pi2uxwYMylU2AnKrHyjbbyG8YkOMJ1bR9vozFPRT5kDV7RLBwMIymw0unKH7PONkur/LC358yfBcKow==",
   "success": true,
-  "projectFilePath": "C:\\Users\\begus\\OneDrive\\Desktop\\Backend\\inpositionlibrary\\inpositionlibrary.csproj",
+  "projectFilePath": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\inpositionlibrary\\inpositionlibrary.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\begus\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\begus\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
