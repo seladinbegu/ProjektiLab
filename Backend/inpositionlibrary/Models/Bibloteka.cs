@@ -8,13 +8,11 @@ namespace inpositionlibrary.Models
 {
     public class Bibloteka
     {
-        [Key] // PrimaryKey
-        public string Pika {get; set;} = string.Empty;
 
-        public string Adresa {get; set;} = string.Empty;
+        [Key]
+        public string Pika {get; set;}
+        public string Adresa {get; set;}
+         public string Kontakti {get; set;}
 
-        public string Kontakti {get; set;} = string.Empty;
-
-        public int NumriPunetoreve {get; set;}
     }
 }

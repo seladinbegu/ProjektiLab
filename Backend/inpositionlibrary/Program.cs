@@ -1,46 +1,30 @@
-using inpositionlibrary.Data;
-using Microsoft.EntityFrameworkCore;
+using inpositionlibrary.Models.Data;
+using inpositionlibrary.Models.Data.Interfaces;
+using inpositionlibrary.Models.Data.Interfaces.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
+builder.Services.AddScoped<IBiblotekaRepository, BiblotekaRepository>();
+builder.Services.AddScoped<IPunetoriRepository, PunetoriRepository>();
+
+builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddCors(options => {
+    options.AddPolicy("CORSPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
 builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<ApplicationDBContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
-// Configure CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowOrigin", builder =>
-    {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
-});
-
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
+app.UseCors("CORSPolicy");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-    });
+    app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
-
-// Enable CORS middleware
-app.UseCors("AllowOrigin");
-
+app.UseAuthorization();
 app.MapControllers();
-
 app.Run();

@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using inpositionlibrary.Data;
+using inpositionlibrary.Models.Data;
 
 #nullable disable
 
 namespace inpositionlibrary.Migrations
 {
-    [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240418154618_RemoveLatColumnFromPunetori")]
-    partial class RemoveLatColumnFromPunetori
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20240422225539_v2")]
+    partial class v2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,9 +38,6 @@ namespace inpositionlibrary.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumriPunetoreve")
-                        .HasColumnType("int");
-
                     b.HasKey("Pika");
 
                     b.ToTable("Bibloteka");
@@ -48,13 +45,14 @@ namespace inpositionlibrary.Migrations
 
             modelBuilder.Entity("inpositionlibrary.Models.Punetori", b =>
                 {
-                    b.Property<int>("ID_Punetori")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_Punetori"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BiblotekaPika")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Emri")
@@ -64,15 +62,11 @@ namespace inpositionlibrary.Migrations
                     b.Property<DateOnly>("Mbarimi_iKontrates")
                         .HasColumnType("date");
 
-                    b.Property<string>("Pika")
+                    b.Property<string>("Pozita")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Pozicioni")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID_Punetori");
+                    b.HasKey("Id");
 
                     b.HasIndex("BiblotekaPika");
 
@@ -83,7 +77,9 @@ namespace inpositionlibrary.Migrations
                 {
                     b.HasOne("inpositionlibrary.Models.Bibloteka", "Bibloteka")
                         .WithMany()
-                        .HasForeignKey("BiblotekaPika");
+                        .HasForeignKey("BiblotekaPika")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Bibloteka");
                 });

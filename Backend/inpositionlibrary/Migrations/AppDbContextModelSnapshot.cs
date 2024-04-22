@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using inpositionlibrary.Data;
+using inpositionlibrary.Models.Data;
 
 #nullable disable
 
 namespace inpositionlibrary.Migrations
 {
-    [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AppDbContext))]
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -35,9 +35,6 @@ namespace inpositionlibrary.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumriPunetoreve")
-                        .HasColumnType("int");
-
                     b.HasKey("Pika");
 
                     b.ToTable("Bibloteka");
@@ -45,30 +42,43 @@ namespace inpositionlibrary.Migrations
 
             modelBuilder.Entity("inpositionlibrary.Models.Punetori", b =>
                 {
-                    b.Property<int>("ID_Punetori")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_Punetori"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BiblotekaPika")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Emri")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Mbarimi_iKontrates")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("Mbarimi_iKontrates")
+                        .HasColumnType("date");
 
-                    b.Property<string>("Pozicioni")
+                    b.Property<string>("Pozita")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID_Punetori");
+                    b.HasKey("Id");
+
+                    b.HasIndex("BiblotekaPika");
 
                     b.ToTable("Punetori");
+                });
+
+            modelBuilder.Entity("inpositionlibrary.Models.Punetori", b =>
+                {
+                    b.HasOne("inpositionlibrary.Models.Bibloteka", "Bibloteka")
+                        .WithMany()
+                        .HasForeignKey("BiblotekaPika")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bibloteka");
                 });
 #pragma warning restore 612, 618
         }
