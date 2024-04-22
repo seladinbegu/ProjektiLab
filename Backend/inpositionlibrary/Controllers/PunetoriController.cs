@@ -42,25 +42,81 @@ namespace inpositionlibrary.Controllers
             return punetori == null ? (IActionResult)NotFound() : Ok(punetori);
         }
 
-       [HttpGet("pika/{pika}")]
-public IActionResult GetByPika([FromRoute]string pika)
-{
-    var punetori = context.Punetori.Where(p => p.BiblotekaPika == pika).ToList();
-    return punetori.Count == 0 ? (IActionResult)NotFound() : Ok(punetori);
-}
+        [HttpGet("pika/{pika}")]
+        public IActionResult GetByPika([FromRoute]string pika)
+        {
+            var punetori = context.Punetori.Where(p => p.BiblotekaPika == pika).ToList();
+            return punetori.Count == 0 ? (IActionResult)NotFound() : Ok(punetori);
+        }
 
         [HttpGet("pozicioni/{pozicioni}")]
-public IActionResult GetByPozicioni([FromRoute]string pozicioni)
+        public IActionResult GetByPozicioni([FromRoute]string pozicioni)
+        {
+            var punetori = context.Punetori.Where(p => p.Pozicioni == pozicioni).ToList();
+            return punetori.Count == 0 ? (IActionResult)NotFound() : Ok(punetori);
+        }
+
+[HttpPost]
+public async Task<IActionResult> Post([FromBody] Models.Punetori punetori)
 {
-    var punetori = context.Punetori.Where(p => p.Pozicioni == pozicioni).ToList();
-    return punetori.Count == 0 ? (IActionResult)NotFound() : Ok(punetori);
+    if (punetori == null)
+    {
+        return BadRequest("Punetori object is null");
+    }
+
+   try
+{
+    await context.SaveChangesAsync();
+    return CreatedAtAction("GetById", new { id = punetori.ID_Punetori }, punetori);
+}
+catch (Exception ex)
+{
+    Console.WriteLine("Error occurred while saving entity changes:");
+    Console.WriteLine(ex.ToString());
+    return StatusCode(500, "Internal server error occurred while saving entity changes");
+}
+
 }
 
 
+[HttpPut("{id}")]
+public async Task<IActionResult> Put(int id, [FromBody] Models.Punetori punetori)
+{
+    if (id != punetori.ID_Punetori)
+    {
+        return BadRequest("Invalid ID");
+    }
+
+    try
+    {
+        context.Entry(punetori).State = EntityState.Modified;
+        await context.SaveChangesAsync();
+        return NoContent();
+    }
+    catch (DbUpdateConcurrencyException)
+    {
+        if (!PunetoriExists(id))
+        {
+            return NotFound();
+        }
+        else
+        {
+            throw;
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error occurred while updating entity:");
+        Console.WriteLine(ex.ToString());
+        return StatusCode(500, "Internal server error occurred while updating entity");
+    }
+}
+
+private bool PunetoriExists(int id)
+{
+    return context.Punetori.Any(p => p.ID_Punetori == id);
+}
 
 
-
-
-  
-         }
+    }
 }
