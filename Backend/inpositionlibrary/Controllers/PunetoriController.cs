@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using inpositionlibrary.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace inpositionlibrary.Controllers
 {
@@ -54,6 +55,12 @@ public IActionResult GetByPozicioni([FromRoute]string pozicioni)
     var punetori = context.Punetori.Where(p => p.Pozicioni == pozicioni).ToList();
     return punetori.Count == 0 ? (IActionResult)NotFound() : Ok(punetori);
 }
+
+
+
+
+
+
   
          }
 }

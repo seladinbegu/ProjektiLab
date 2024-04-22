@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LogIn from "./LogIn";
 import Register from "./Register";
 import Books from "./Books";
+import Punetori from "./Punetori";
 
 
 
@@ -15,6 +16,8 @@ export default function App() {
           <Route path="login" element={<LogIn />} />
           <Route path="register" element={<Register />} />
           <Route path="books" element={<Books />} />
+          <Route path="punetori" element={<Punetori />} />
+
 
 
         </Routes>

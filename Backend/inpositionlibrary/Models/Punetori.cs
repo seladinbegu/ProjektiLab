@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 
 namespace inpositionlibrary.Models
 {
@@ -15,7 +16,7 @@ namespace inpositionlibrary.Models
         public string Emri { get; set; } = string.Empty;
 
 
-        public DateOnly Mbarimi_iKontrates { get; set; }
+    public DateTime Mbarimi_iKontrates { get; set; } // Use DateTime for the date property
 
         public string Pozicioni { get; set; } = string.Empty;
 
