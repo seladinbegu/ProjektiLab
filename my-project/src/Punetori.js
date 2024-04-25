@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import axios from 'axios';
+
 
 const Punetori = () => {
   const [punetoret, setPunetoret] = useState([]);
@@ -23,16 +25,14 @@ const Punetori = () => {
   };
 
   // Function to add a new punetori
-  const addPunetori = async () => {
+  const addPunetori = async (newPunetori, fetchPunetoret, setNewPunetori) => {
     try {
-      const response = await fetch('http://localhost:5024/api/Punetori', {
-        method: 'POST',
+      const response = await axios.post('http://localhost:5024/api/Punetori', newPunetori, {
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newPunetori)
+        }
       });
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error('Failed to add punetori');
       }
       fetchPunetoret(); // Refresh the punetoret list
@@ -41,20 +41,15 @@ const Punetori = () => {
       console.error('Error adding punetori:', error);
     }
   };
+  
 
   useEffect(() => {
     fetchPunetoret();
   }, []);
 
-  const deletePunetori = async (id, emri) => {
+  const deletePunetori = async (id, emri, pozita) => {
     try {
-      const confirmDelete = window.confirm(`Sigurohuni përpara se të fshini punëtorin me emrin: ${emri}. A jeni të sigurt?
-
-
-
-
-
-      `);
+      const confirmDelete = window.confirm(`Fshini punëtorin me emrin: ${emri}?`);
       if (!confirmDelete) return;
 
       const response = await fetch(`http://localhost:5024/api/Punetori/${id}`, {
@@ -72,43 +67,42 @@ const Punetori = () => {
     }
   };
 
-  // Function to update a punetori
- // Function to update a punetori
-const updatePunetori = async () => {
-  try {
-    const response = await fetch(`http://localhost:5024/api/Punetori/${editingId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newPunetori)
-    });
-    if (!response.ok) {
-      throw new Error('Failed to update punetori');
-    }
-
-    // Log the response from the server
-    console.log('Update response:', response);
-
-    // Update the punetori in the state array
-    setPunetoret(prevPunetoret => {
-      return prevPunetoret.map(punetor => {
-        if (punetor.id === editingId) {
-          return { ...punetor, ...newPunetori };
-        }
-        return punetor;
+  const updatePunetori = async () => {
+    try {
+      const response = await fetch(`http://localhost:5024/api/Punetori/${editingId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newPunetori)
       });
-    });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update punetori');
+      }
+  
+      // Update the punetori in the state array
+      setPunetoret(prevPunetoret => {
+        return prevPunetoret.map(punetor => {
+          if (punetor.id === editingId) {
+            return { ...punetor, ...newPunetori };
+          }
+          return punetor;
+        });
+      });
+  
+      // Reset the editing ID and form fields
+      setEditingId(null);
+      setNewPunetori({ emri: '', mbarimi_iKontrates: '', pozita: '', biblotekaPika: '' });
+  
+      // Log success message
+      console.log('Punetori updated successfully!');
+    } catch (error) {
+      console.error('Error updating punetori:', error);
+    }
+  };
+  
 
-    // Log the updated punetoret state
-    console.log('Updated punetoret:', punetoret);
-
-    setEditingId(null); // Reset the editing ID
-    setNewPunetori({ emri: '', mbarimi_iKontrates: '', pozita: '', biblotekaPika: '' }); // Reset the form fields
-  } catch (error) {
-    console.error('Error updating punetori:', error);
-  }
-};
 
 
   // Function to set editing mode and populate form fields
@@ -138,7 +132,7 @@ const updatePunetori = async () => {
               <p><strong>Pozita:</strong> {p.pozita}</p>
               <p><strong>Pika:</strong> {p.biblotekaPika}</p>
               <div className="flex mt-2">
-                <button className="mr-2 bg-green-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onClick={() => editPunetori(p.id)}>Përmirëso</button>
+                <button className="mr-2 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" onClick={() => editPunetori(p.id)}>Përmirëso</button>
                 <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onClick={() => deletePunetori(p.id, p.emri)}>Fshijë</button>
               </div>
               {editingId === p.id && (
@@ -172,7 +166,6 @@ const updatePunetori = async () => {
         </form>
       </div>
       <Footer />
-      {/* Add empty divs to extend page length */}
       <div style={{ height: '90px' }}></div>
     </>
   );
