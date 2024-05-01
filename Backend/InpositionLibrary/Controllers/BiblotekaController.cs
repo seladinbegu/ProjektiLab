@@ -38,5 +38,43 @@ namespace InpositionLibrary.Controllers
 
 
 
+
+        [HttpPut]
+        [Route("{pika}")]
+        public IActionResult Update([FromRoute] string pika, [FromBody] UpdateBiblotekaRequestDto updateDto){
+            var biblotekaModel = _context.Bibloteka.FirstOrDefault(b => b.Pika == pika);
+            if(biblotekaModel == null){
+                return NotFound();
+            }
+            biblotekaModel.Pika = updateDto.Pika;
+            biblotekaModel.Adresa = updateDto.Adresa;
+            biblotekaModel.Kontakti = updateDto.Kontakti;
+
+            _context.SaveChanges();
+            return Ok(biblotekaModel.toBiblotekaDto());
+        }
+
+
+
+
+
+
+        [HttpDelete]
+        [Route("{pika}")]
+        public IActionResult Delete([FromRoute] string pika)
+        {
+            var biblotekaModel = _context.Bibloteka.FirstOrDefault(b => b.Pika == pika);
+            if(biblotekaModel == null){
+                return NotFound();
+            }
+            _context.Bibloteka.Remove(biblotekaModel);
+            _context.SaveChanges();
+
+            return NoContent();
+
+        }
+
+
+
     }
 }

@@ -68,6 +68,26 @@ public IActionResult GetByPozita([FromRoute] string pozita)
 
 
 
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdatePunetoriRequestDto updateDto){
+            var punetoriModel = _context.Punetori.FirstOrDefault(p => p.Id == id);
+            if(punetoriModel == null){
+                return NotFound();
+            }
+            punetoriModel.Id = updateDto.Id;
+            punetoriModel.Emri = updateDto.Emri;
+            punetoriModel.Pozita = updateDto.Pozita;
+            punetoriModel.Pika = updateDto.Pika;
+
+
+            _context.SaveChanges();
+            return Ok(punetoriModel.toPunetoriDto());
+        }
+
+
+
+
             [HttpPost]
         public IActionResult Create([FromBody] CreatePunetoriRequestDto punetoriDto)
         {
@@ -76,5 +96,23 @@ public IActionResult GetByPozita([FromRoute] string pozita)
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetById), new{ Id = punetoriModel.Id}, punetoriModel.toPunetoriDto());
     }
+
+
+
+
+    [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var punetoriModel = _context.Punetori.FirstOrDefault(p => p.Id == id);
+            if(punetoriModel == null){
+                return NotFound();
+            }
+            _context.Punetori.Remove(punetoriModel);
+            _context.SaveChanges();
+
+            return NoContent();
+
+        }
 }
 }
