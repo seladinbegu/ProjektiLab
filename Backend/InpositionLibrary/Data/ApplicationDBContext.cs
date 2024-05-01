@@ -15,6 +15,8 @@ namespace InpositionLibrary.Data
         {}
             public DbSet<Bibloteka> Bibloteka{get; set;}
             public DbSet<Punetori> Punetori { get; set; }
+
+            
         
     
     }

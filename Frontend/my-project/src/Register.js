@@ -33,27 +33,29 @@ const Register = () => {
           <div className="lg:w-1/2 pr-4">
             <h2 className="text-2xl font-semibold mb-4 text-center lg:text-left">Regjistrohu</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block">Emri:</label>
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="surname" className="block">Mbiemri:</label>
-                <input
-                  type="text"
-                  id="surname"
-                  value={surname}
-                  onChange={(event) => setSurname(event.target.value)}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                />
+              <div className="flex flex-col lg:flex-row">
+                <div className="w-full lg:w-1/2 pr-2">
+                  <label htmlFor="name" className="block">Emri:</label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    required
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div className="w-full lg:w-1/2 pl-2">
+                  <label htmlFor="surname" className="block">Mbiemri:</label>
+                  <input
+                    type="text"
+                    id="surname"
+                    value={surname}
+                    onChange={(event) => setSurname(event.target.value)}
+                    required
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                  />
+                </div>
               </div>
               <div>
                 <label htmlFor="email" className="block">Email:</label>
@@ -62,6 +64,17 @@ const Register = () => {
                   id="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
+                  required
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label htmlFor="phoneNumber" className="block">Numri i telefonit:</label>
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  value={phoneNumber}
+                  onChange={(event) => setPhoneNumber(event.target.value)}
                   required
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
                 />
@@ -78,17 +91,6 @@ const Register = () => {
                   id="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="phoneNumber" className="block">Numri i telefonit:</label>
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  value={phoneNumber}
-                  onChange={(event) => setPhoneNumber(event.target.value)}
                   required
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
                 />
