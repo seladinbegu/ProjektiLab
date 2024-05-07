@@ -78,8 +78,8 @@ const BiblotekaForm = () => {
     <>
     <Header />
 
-    <div className="overflow-x-hidden overflow-y-auto">
-      <div className="container mx-auto mt-8 max-h-screen">
+    <div className="overflow-x-hidden overflow-y-auto mb-14">
+      <div className="container mx-auto mt-8 max-h-screen mb-8">
         <h2 className="text-2xl font-bold mb-4">Pikat</h2>
         <div className="flex justify-end mb-4">
           
