@@ -23,7 +23,7 @@ const LogIn = () => {
           <h2 className="text-2xl font-semibold mb-4 text-center">Kyqu</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="cardnumber" className="block">Numri i kartës:</label>
+              <label htmlFor="cardnumber" className="block">Emri i përdoruesit:</label>
               <input
                 type="text"
                 pattern="[0-9]*"

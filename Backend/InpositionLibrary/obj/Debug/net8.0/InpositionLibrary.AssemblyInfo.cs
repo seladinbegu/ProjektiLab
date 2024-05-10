@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InpositionLibrary")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1429f8d83ad0d960170a15c9a7980e4e4aa3d8d9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+508d0cbb3c772b378428fa674a820975be59b3e7")]
 [assembly: System.Reflection.AssemblyProductAttribute("InpositionLibrary")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InpositionLibrary")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

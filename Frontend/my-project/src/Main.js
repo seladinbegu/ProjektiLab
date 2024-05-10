@@ -10,7 +10,7 @@ const Main = () => {
         <img src={logo2} alt="Inposition Library Logo" className="w-full mt-0.5 mb-0.5" />
 
         <section className="container mx-auto mt-8">
-          <h2 className="text-3xl font-bold mb-4">Librat e paraqitura</h2>
+          <h2 className="text-3xl font-bold mb-4">Libra të disponueshëm</h2>
 
           {/* Featured Books Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

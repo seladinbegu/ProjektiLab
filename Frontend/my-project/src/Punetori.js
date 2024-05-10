@@ -141,7 +141,7 @@ function Punetori() {
   };
 
   const handleDeletePunetori = async (id) => {
-    if (window.confirm('Are you sure you want to delete this punetori?')) {
+    if (window.confirm('A dëshironi të fshini këtë punëtor?')) {
       try {
         const response = await fetch(`http://localhost:5132/api/punetori/${id}`, {
           method: 'DELETE'
