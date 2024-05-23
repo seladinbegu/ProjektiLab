@@ -3,6 +3,7 @@ using InpositionLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InpositionLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240510220223_migration1")]
+    partial class migration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,35 +40,6 @@ namespace InpositionLibrary.Migrations
                     b.HasKey("Pika");
 
                     b.ToTable("Bibloteka");
-                });
-
-            modelBuilder.Entity("InpositionLibrary.Models.Libri", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Autori")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BiblotekaPika")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Pika")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Titulli")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BiblotekaPika");
-
-                    b.ToTable("Libri");
                 });
 
             modelBuilder.Entity("InpositionLibrary.Models.Punetori", b =>
@@ -95,15 +69,6 @@ namespace InpositionLibrary.Migrations
                     b.HasIndex("BiblotekaPika");
 
                     b.ToTable("Punetori");
-                });
-
-            modelBuilder.Entity("InpositionLibrary.Models.Libri", b =>
-                {
-                    b.HasOne("InpositionLibrary.Models.Bibloteka", "Bibloteka")
-                        .WithMany()
-                        .HasForeignKey("BiblotekaPika");
-
-                    b.Navigation("Bibloteka");
                 });
 
             modelBuilder.Entity("InpositionLibrary.Models.Punetori", b =>

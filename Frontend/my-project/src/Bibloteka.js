@@ -103,7 +103,7 @@ const BiblotekaForm = () => {
                 value={biblotekaData.pika}
                 onChange={handleInputChange}
                 className="border rounded-md p-2 w-full"
-                readOnly={isEditing}
+                enabled={isEditing}
               />
             </div>
             <div>
