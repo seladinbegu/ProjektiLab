@@ -11,6 +11,7 @@ namespace InpositionLibrary.Models
          [Key]
 public int Id { get; set; }
 public string Emri { get; set; }  = string.Empty;
+public int LibriId {get; set;}
 
 public Libri? Libri{get; set;}
 

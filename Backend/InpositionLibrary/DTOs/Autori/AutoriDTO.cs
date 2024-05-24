@@ -6,22 +6,11 @@ using System.Threading.Tasks;
 
 namespace InpositionLibrary.DTOs.Autori
 {
-    public class AutoriDTO
+    public class AutoriDto
     {
-           [Key]
+         [Key]
 public int Id { get; set; }
 public string Emri { get; set; }  = string.Empty;
-
-public string? Libri{get; set;}
-
-        internal static Models.Autori toAutoriFromCreateDto()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal static Models.Autori toAutoriFromCreateDTO()
-        {
-            throw new NotImplementedException();
-        }
+public int LibriId {get; set;}
     }
 }

@@ -19,40 +19,60 @@ namespace InpositionLibrary.Controllers
             _context = context;
         }
 
+        
         [HttpGet]
         public IActionResult Get(){
-            var autori = _context.Autori.ToList().Select(s => s.toAutoriDTO());
+            var autori = _context.Autori.ToList().Select(s => s.toAutoriDto());
             return Ok(autori);
         }
 
+
         [HttpPost]
-        public IActionResult Create([FromBody] CreateAutoriRequestDto AutoriDto)
+        public IActionResult Create([FromBody] CreateAutoriRequestDto autoriDto)
         {
-            var autoriModel = AutoriDto.toAutoriFromCreateDTO();
+            var autoriModel = autoriDto.toAutoriFromCreateDto();
             _context.Autori.Add(autoriModel);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new{Pika = autoriModel.Id}, autoriModel.toAutoriDTO());
+            return CreatedAtAction(nameof(Get), new{Id = autoriModel.Id}, autoriModel.toAutoriDto());
         }
 
-         [HttpPut]
+
+
+
+
+
+        
+        [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] int Id, [FromBody] UpdateAutoriRequestDto updateDto){
-            var autoriModel = _context.Autori.FirstOrDefault(b => b.Id == Id);
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateAutoriRequestDto updateDto){
+            var autoriModel = _context.Autori.FirstOrDefault(b => b.Id == id);
             if(autoriModel == null){
                 return NotFound();
             }
             autoriModel.Id = updateDto.Id;
             autoriModel.Emri = updateDto.Emri;
+            autoriModel.LibriId = updateDto.LibriId;
 
             _context.SaveChanges();
-            return Ok(autoriModel.toAutoriDTO());
+            return Ok(autoriModel.toAutoriDto());
         }
 
+
+
+
+
+
+
+
+
+
+
+        
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute] int Id)
+        public IActionResult Delete([FromRoute] int id)
         {
-            var autoriModel = _context.Autori.FirstOrDefault(b => b.Id == Id);
+            var autoriModel = _context.Autori.FirstOrDefault(b => b.Id == id);
             if(autoriModel == null){
                 return NotFound();
             }
@@ -62,6 +82,9 @@ namespace InpositionLibrary.Controllers
             return NoContent();
 
         }
+
+
+
 
     }
 }

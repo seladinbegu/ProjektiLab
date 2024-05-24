@@ -9,22 +9,23 @@ namespace InpositionLibrary.Mappers
 {
     public static class AutoriMapper
     {
-        public static AutoriDTO toAutoriDTO(this Autori autorimodel)
+
+         public static AutoriDto toAutoriDto(this Autori autoriModel)
         {
-            return new AutoriDTO{
-                Id = autorimodel.Id,
-                Emri = autorimodel.Emri
-
-
+            return new AutoriDto{
+                Id = autoriModel.Id,
+                Emri = autoriModel.Emri,
+                LibriId = autoriModel.LibriId
             };
         }
 
-        public static Autori toAutoriFromCreateDto(this CreateAutoriRequestDto AutoriDTO)
+        public static Autori toAutoriFromCreateDto(this CreateAutoriRequestDto autoriDto)
         {
             return new Autori{
-            Id = AutoriDTO.Id,
-            Emri = AutoriDTO.Emri
+            Emri = autoriDto.Emri,
+            LibriId = autoriDto.LibriId,
             };
-    }
+        }
+        
     }
 }
