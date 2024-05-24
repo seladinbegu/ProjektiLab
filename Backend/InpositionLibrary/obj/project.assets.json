@@ -4465,11 +4465,16 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\begus\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\User\\.nuget\\packages\\": {}
+>>>>>>> 5af2d9870e4320ff3d2390d657135d3971efeab5
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
       "projectName": "InpositionLibrary",
       "projectPath": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
@@ -4478,6 +4483,16 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\begus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+      "projectUniqueName": "C:\\Users\\User\\Documents\\GitHub\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
+      "projectName": "InpositionLibrary",
+      "projectPath": "C:\\Users\\User\\Documents\\GitHub\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\Documents\\GitHub\\ProjektiLab\\Backend\\InpositionLibrary\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 5af2d9870e4320ff3d2390d657135d3971efeab5
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4552,7 +4567,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
