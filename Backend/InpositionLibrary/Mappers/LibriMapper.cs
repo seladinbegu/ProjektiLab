@@ -15,7 +15,9 @@ namespace InpositionLibrary.Mappers
                 Id = libriModel.Id,
                 Titulli = libriModel.Titulli,
                 Autori = libriModel.Autori,
-                Pika = libriModel.Pika
+                Pika = libriModel.Pika,
+                Burimi = libriModel.Burimi,
+                Statusi = libriModel.Statusi
                       };
         }
 
@@ -24,7 +26,9 @@ namespace InpositionLibrary.Mappers
             {
                 Titulli = libriDto.Titulli,
                 Autori = libriDto.Autori,
-                Pika = libriDto.Pika
+                Pika = libriDto.Pika,
+                Burimi = libriDto.Burimi,
+                Statusi = libriDto.Statusi
             };
 
           }
