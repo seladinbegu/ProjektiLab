@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8ZrVoBHCISP8TH5C65zYBDNd7huv+JopgsK5JDYLizWzmIYkEhgVvsQfmFXCuwLgeFfr8Uf4kmwZ9L/mMmFY/Q==",
+  "dgSpecHash": "lLEhqRw1hgOsL4bFWIZqmqd7QzSuiwrBx84ozgb+t4LFGsIL3yjKZFvtY5c/mSxqMQhLgiXiipqn1FvBJOLDXw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Alban\\Documents\\GitHub\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
+  "projectFilePath": "C:\\Users\\Alban\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alban\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Alban\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

@@ -4470,11 +4470,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Alban\\Documents\\GitHub\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
+      "projectUniqueName": "C:\\Users\\Alban\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
       "projectName": "InpositionLibrary",
-      "projectPath": "C:\\Users\\Alban\\Documents\\GitHub\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
+      "projectPath": "C:\\Users\\Alban\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
       "packagesPath": "C:\\Users\\Alban\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Alban\\Documents\\GitHub\\ProjektiLab\\Backend\\InpositionLibrary\\obj\\",
+      "outputPath": "C:\\Users\\Alban\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Alban\\AppData\\Roaming\\NuGet\\NuGet.Config",
