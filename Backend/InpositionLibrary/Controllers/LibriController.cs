@@ -46,6 +46,8 @@ namespace InpositionLibrary.Controllers
             libriModel.Id = updateDto.Id;
             libriModel.Titulli = updateDto.Titulli;
             libriModel.Autori = updateDto.Autori;
+            libriModel.Burimi = updateDto.Burimi;
+            libriModel.Statusi = updateDto.Statusi;
             libriModel.Pika = updateDto.Pika;
 
 

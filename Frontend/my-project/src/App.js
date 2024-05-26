@@ -5,6 +5,7 @@ import Register from "./Register";
 import Books from "./Books";
 import Punetori from "./Punetori";
 import Bibloteka from "./Bibloteka";
+import Libri from "./Libri";
 
 
 
@@ -20,7 +21,7 @@ export default function App() {
           <Route path="books" element={<Books />} />
           <Route path="punetori" element={<Punetori />} />
           <Route path="bibloteka" element={<Bibloteka />} />
-
+          <Route path="libri" element={<Libri />} />
         </Routes>
       </Router>
     </div>
