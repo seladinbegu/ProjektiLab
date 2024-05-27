@@ -6,7 +6,7 @@ import Footer from "./Footer";
 const Register = () => {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,10 +14,10 @@ const Register = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Submitted:', { name, surname, email, phoneNumber, password, confirmPassword, location });
+    console.log('Submitted:', { name, surname, username, phoneNumber, password, confirmPassword, location });
     setName('');
     setSurname('');
-    setEmail('');
+    setUsername('');
     setPhoneNumber('');
     setPassword('');
     setConfirmPassword('');
@@ -34,36 +34,26 @@ const Register = () => {
             <h2 className="text-2xl font-semibold mb-4 text-center lg:text-left">Regjistrohu</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex flex-col lg:flex-row">
-                <div className="w-full lg:w-1/2 pr-2">
-                  <label htmlFor="name" className="block">Emri:</label>
-                  <input
-                    type="text"
-                    id="name"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    required
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div className="w-full lg:w-1/2 pl-2">
-                  <label htmlFor="surname" className="block">Mbiemri:</label>
-                  <input
-                    type="text"
-                    id="surname"
-                    value={surname}
-                    onChange={(event) => setSurname(event.target.value)}
-                    required
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-              </div>
               <div>
-                <label htmlFor="email" className="block">Email:</label>
+                <label htmlFor="email" className="block">Emri dhe Mbiemri:</label>
                 <input
                   type="email"
                   id="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  required
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+               
+              </div>
+              <div>
+                <label htmlFor="email" className="block">Emri i Përdoruesit:</label>
+                <input
+                  type="text"
+                  id="emriiperdoruesit"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
                   required
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
                 />
