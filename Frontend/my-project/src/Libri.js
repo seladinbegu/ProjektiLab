@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Footer from './Footer';
 import Header from './Header';
-<<<<<<< HEAD
-=======
-import { libriServiceInstance } from 'D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Frontend\\my-project\\src\\Services\\LibriService.js'; // Complete import path
->>>>>>> c792b5ab49c24fd41c618d49aec6ffd08ea690e5
 
 const Libri = () => {
   const [libriData, setLibriData] = useState({
@@ -20,18 +16,8 @@ const Libri = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const fetchLibriListAndLogBurimi = async () => {
-      await fetchLibriList(); // Assuming fetchLibriList fetches data and updates libriList state
-      if (libriList.length > 0) {
-        console.log(libriList[0].burimi); // Accessing the first item's burimi property
-      }
-    };
-  
-    fetchLibriListAndLogBurimi();
-  }, [libriList]);
-  
-
-  
+    fetchLibriList();
+  }, []);
 
   const fetchLibriList = async () => {
     try {
@@ -96,7 +82,6 @@ const Libri = () => {
 
   return (
     <>
-
     <Header></Header>
     <div style={{ textAlign: 'center', minHeight: '100vh', padding: '1rem', paddingBottom: '10rem' }}>
       <div style={{ margin: '0 auto', padding: '1rem'}}>
@@ -148,20 +133,7 @@ const Libri = () => {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '3rem' }}>
           {libriList.map((libri) => (
             <div key={libri.id} style={{ border: '1px solid #ccc', borderRadius: '0.5rem', padding: '2rem', position: 'relative' }}>
-<img 
-  src={libri.burimi} 
-  alt="Book Cover" 
-  style={{ 
-    width: '100%', 
-    height: '200px', 
-    objectFit: 'cover', 
-    borderRadius: '0.5rem', 
-    marginBottom: '0.5rem' 
-  }} 
-/>
-
-
-
+              <img src={`http://localhost:5132${libri.burimi}`} alt="Book Cover" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '0.5rem', marginBottom: '0.5rem' }} />
               <div style={{ position: 'absolute', bottom: '-2.3rem', width: '100%', left: '0', display: 'flex', justifyContent: 'space-evenly' }}>
                 <button
                   onClick={() => handleEdit(libri)}
@@ -187,8 +159,8 @@ const Libri = () => {
           ))}
         </div>
       </div>
-      <Footer />
     </div>
+    <Footer></Footer>
     </>
   );
 };

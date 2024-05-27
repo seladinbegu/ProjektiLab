@@ -1,19 +1,11 @@
 {
   "Files": [
     {
-<<<<<<< HEAD
       "Id": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg",
       "PackagePath": "staticwebassets\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg"
     },
     {
       "Id": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg",
-=======
-      "Id": "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg",
-      "PackagePath": "staticwebassets\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg"
-    },
-    {
-      "Id": "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg",
->>>>>>> c792b5ab49c24fd41c618d49aec6ffd08ea690e5
       "PackagePath": "staticwebassets\\uploads\\41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg"
     },
     {
