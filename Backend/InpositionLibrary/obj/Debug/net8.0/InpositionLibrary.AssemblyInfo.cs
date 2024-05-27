@@ -14,10 +14,14 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 <<<<<<< HEAD
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c8ff32819030090c194084fea375683e52608369")]
 =======
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b742e383d44788bf095e2457caf9c9c211d69d74")]
 >>>>>>> 334e85e0f5581e85ec38fa2d5f2447c2cc927bdf
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c597d8e0f10703dcbdca9d496ddc8cb20fb97ee3")]
+>>>>>>> bbd82548ff39c78cc87777f8b8980e1d2132dbe3
 [assembly: System.Reflection.AssemblyProductAttribute("InpositionLibrary")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InpositionLibrary")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

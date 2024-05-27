@@ -19,6 +19,8 @@ namespace InpositionLibrary.Data
             public DbSet<Libri> Libri { get; set; }
 
             public DbSet<Autori> Autori { get; set; }
+
+            public DbSet<Lexuesi> Lexuesi {get; set;}
         
     
     }
