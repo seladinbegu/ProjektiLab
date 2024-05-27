@@ -1,6 +1,10 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "Hash": "wNwIA7b6k98LY7AfmeO4YMTLU/n/10RHIZ9B6Y9fRJs=",
+=======
+  "Hash": "iwMxcSRxf53MXoO1B6ULo59TpNGR3sUV8VCPea27bRw=",
+>>>>>>> c792b5ab49c24fd41c618d49aec6ffd08ea690e5
   "Source": "InpositionLibrary",
   "BasePath": "_content/InpositionLibrary",
   "Mode": "Default",
@@ -10,17 +14,28 @@
     {
       "Name": "InpositionLibrary\\wwwroot",
       "Source": "InpositionLibrary",
+<<<<<<< HEAD
       "ContentRoot": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\",
+=======
+      "ContentRoot": "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\",
+>>>>>>> c792b5ab49c24fd41c618d49aec6ffd08ea690e5
       "BasePath": "_content/InpositionLibrary",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
+<<<<<<< HEAD
       "Identity": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg",
       "SourceId": "InpositionLibrary",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\",
+=======
+      "Identity": "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg",
+      "SourceId": "InpositionLibrary",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\",
+>>>>>>> c792b5ab49c24fd41c618d49aec6ffd08ea690e5
       "BasePath": "_content/InpositionLibrary",
       "RelativePath": "uploads/03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg",
       "AssetKind": "All",
@@ -36,10 +51,17 @@
       "OriginalItemSpec": "wwwroot\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg"
     },
     {
+<<<<<<< HEAD
       "Identity": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg",
       "SourceId": "InpositionLibrary",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\",
+=======
+      "Identity": "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg",
+      "SourceId": "InpositionLibrary",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\",
+>>>>>>> c792b5ab49c24fd41c618d49aec6ffd08ea690e5
       "BasePath": "_content/InpositionLibrary",
       "RelativePath": "uploads/41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg",
       "AssetKind": "All",

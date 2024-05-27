@@ -553,4 +553,8 @@ C:\Users\User\Documents\GitHub\ProjektiLab\Backend\InpositionLibrary\obj\Debug\n
 C:\Users\User\Documents\GitHub\ProjektiLab\Backend\InpositionLibrary\obj\Debug\net8.0\InpositionLibrary.genruntimeconfig.cache
 C:\Users\User\Documents\GitHub\ProjektiLab\Backend\InpositionLibrary\obj\Debug\net8.0\ref\InpositionLibrary.dll
 >>>>>>> refs/remotes/origin/main
+<<<<<<< HEAD
 C:\Users\begus\OneDrive\Desktop\ProjektiLab\Backend\InpositionLibrary\bin\Debug\net8.0\InpositionLibrary.staticwebassets.runtime.json
+=======
+D:\Florent\UBT-Florent\Viti-2\Semestri 4\ProjektiLab\Backend\InpositionLibrary\bin\Debug\net8.0\InpositionLibrary.staticwebassets.runtime.json
+>>>>>>> c792b5ab49c24fd41c618d49aec6ffd08ea690e5

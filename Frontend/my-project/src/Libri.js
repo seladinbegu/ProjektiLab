@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Footer from './Footer';
 import Header from './Header';
+<<<<<<< HEAD
+=======
+import { libriServiceInstance } from 'D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Frontend\\my-project\\src\\Services\\LibriService.js'; // Complete import path
+>>>>>>> c792b5ab49c24fd41c618d49aec6ffd08ea690e5
 
 const Libri = () => {
   const [libriData, setLibriData] = useState({
