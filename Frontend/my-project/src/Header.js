@@ -13,7 +13,7 @@ const Header = () => {
       </div>
       <nav className="flex items-center mt-4 lg:mt-0">
         <Link to="/" className="text-white hover:text-blue-900 transition duration-300 ease-in-out ml-4 lg:ml-8">Kreu</Link>
-        <Link to="/books" className="text-white hover:text-blue-900 transition duration-300 ease-in-out ml-4 lg:ml-8">Librat</Link>
+        <Link to="/Libri" className="text-white hover:text-blue-900 transition duration-300 ease-in-out ml-4 lg:ml-8">Librat</Link>
         <Link to="/contact" className="text-white hover:text-blue-900 transition duration-300 ease-in-out ml-4 lg:ml-8">Kontakti</Link>
         <Link to="/about" className="text-white hover:text-blue-900 transition duration-300 ease-in-out ml-4 lg:ml-8">Rreth nesh</Link>
         <Link to="/login" className="text-white bg-transparent border border-white hover:bg-white hover:text-blue-900 transition duration-300 ease-in-out ml-2 lg:ml-4 px-3 lg:px-4 py-2 rounded-lg">
