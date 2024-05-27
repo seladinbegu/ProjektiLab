@@ -4465,19 +4465,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Alban\\.nuget\\packages\\": {}
+    "C:\\Users\\begus\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Alban\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
+      "projectUniqueName": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
       "projectName": "InpositionLibrary",
-      "projectPath": "C:\\Users\\Alban\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
-      "packagesPath": "C:\\Users\\Alban\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Alban\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\obj\\",
+      "projectPath": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
+      "packagesPath": "C:\\Users\\begus\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Alban\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\begus\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

@@ -98,8 +98,8 @@ const Lexuesi = () => {
                 <p>{lexuesi.emriPerdoruesit} | {lexuesi.numriTelefonit} | {lexuesi.bibloteka} | Password: {encryptPassword(lexuesi.fjalekalimi)}</p>
               </div>
               <div>
-                <button onClick={() => handleEdit(lexuesi)} className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">Edit</button>
-                <button onClick={() => handleDelete(lexuesi.id)} className="bg-red-500 text-white px-4 py-2 rounded-lg">Delete</button>
+                <button onClick={() => handleEdit(lexuesi)} className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">Përmirëso</button>
+                <button onClick={() => handleDelete(lexuesi.id)} className="bg-red-500 text-white px-4 py-2 rounded-lg">Fshijë</button>
               </div>
             </li>
           ))}
@@ -116,7 +116,7 @@ const Lexuesi = () => {
             <option value="Vushtrri">Vushtrri</option>
             <option value="Prizren">Prizren</option>
           </select>
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg">{isEditing ? 'Edit' : 'Add'}</button>
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg">{isEditing ? 'Përmirëso' : 'Shto Lexuesin'}</button>
         </form>
       </div>
       <Footer />

@@ -156,6 +156,8 @@ const Libri = () => {
   }} 
 />
 
+
+
               <div style={{ position: 'absolute', bottom: '-2.3rem', width: '100%', left: '0', display: 'flex', justifyContent: 'space-evenly' }}>
                 <button
                   onClick={() => handleEdit(libri)}
