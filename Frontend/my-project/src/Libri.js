@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Footer from './Footer';
 import Header from './Header';
-import { libriServiceInstance } from 'C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Frontend\\my-project\\src\\Services\\LibriService.js'; // Complete import path
+import { libriServiceInstance } from 'D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Frontend\\my-project\\src\\Services\\LibriService.js'; // Complete import path
 
 const Libri = () => {
   const [libriData, setLibriData] = useState({
