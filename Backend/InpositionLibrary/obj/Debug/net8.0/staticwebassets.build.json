@@ -1,11 +1,58 @@
 {
   "Version": 1,
-  "Hash": "LuqeXByRpoEqoRWIMkPOuRWEDm3Cz1Hole4yflK/h78=",
+  "Hash": "wNwIA7b6k98LY7AfmeO4YMTLU/n/10RHIZ9B6Y9fRJs=",
   "Source": "InpositionLibrary",
   "BasePath": "_content/InpositionLibrary",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "InpositionLibrary\\wwwroot",
+      "Source": "InpositionLibrary",
+      "ContentRoot": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\",
+      "BasePath": "_content/InpositionLibrary",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg",
+      "SourceId": "InpositionLibrary",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\",
+      "BasePath": "_content/InpositionLibrary",
+      "RelativePath": "uploads/03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg",
+      "SourceId": "InpositionLibrary",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\",
+      "BasePath": "_content/InpositionLibrary",
+      "RelativePath": "uploads/41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg"
+    }
+  ]
 }

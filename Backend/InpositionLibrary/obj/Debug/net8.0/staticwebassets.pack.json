@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg",
+      "PackagePath": "staticwebassets\\uploads\\03d3be4d-b3cc-4049-8555-7c48597aa12f.jpg"
+    },
+    {
+      "Id": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\wwwroot\\uploads\\41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg",
+      "PackagePath": "staticwebassets\\uploads\\41ede97f-30c0-4601-a9aa-df8a9cad75b3.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.InpositionLibrary.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.InpositionLibrary.props",
+      "PackagePath": "build\\InpositionLibrary.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.InpositionLibrary.props",
+      "PackagePath": "buildMultiTargeting\\InpositionLibrary.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.InpositionLibrary.props",
+      "PackagePath": "buildTransitive\\InpositionLibrary.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
