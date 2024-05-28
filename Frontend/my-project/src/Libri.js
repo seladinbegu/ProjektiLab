@@ -86,7 +86,7 @@ const Libri = () => {
   return (
     <>
       <Header></Header>
-      <div style={{ textAlign: 'center', minHeight: '100vh', padding: '1rem', paddingBottom: '10rem' }}>
+      <div style={{ textAlign: 'center', minHeight: '100vh', padding: '1rem', paddingBottom: '10rem'}}>
         <div style={{ margin: '0 auto', padding: '1rem'}}>
           <form onSubmit={handleSubmit} className="mb-4" style={{ marginBottom: '2rem' }}>
             <input
