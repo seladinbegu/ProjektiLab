@@ -82,19 +82,30 @@ const Libri = () => {
 
   const handleOrder = async (id) => {
     try {
-      if (libriData.statusi === null || libriData.statusi === 'I Lirë') {
-        const releaseDate = new Date();
-        releaseDate.setMonth(releaseDate.getMonth() + 1);
-        const updatedStatus = releaseDate.toISOString().split('T')[0]; // Format to YYYY-MM-DD
-        const response = await fetch(`http://localhost:5132/api/Libri/${id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ statusi: updatedStatus })
-        });
-        fetchLibriList();
-      }
+      const updatedStatus = 'Rezervuar'; // Temporary status for 5 seconds
+      await fetch(`http://localhost:5132/api/Libri/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify([{ op: "replace", path: "/statusi", value: updatedStatus }])
+      });
+      fetchLibriList();
+  
+      setTimeout(async () => {
+        try {
+          await fetch(`http://localhost:5132/api/Libri/${id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify([{ op: "replace", path: "/statusi", value: null }])
+          });
+          fetchLibriList();
+        } catch (error) {
+          console.error('Error resetting libri status:', error);
+        }
+      }, 5000);
     } catch (error) {
       console.error('Error ordering libri:', error);
     }
@@ -160,44 +171,43 @@ const Libri = () => {
                   alt="Book Cover"
                   className="w-full h-full object-cover rounded-lg mb-4"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-75 flex
-justify-around py-2 rounded-b-lg shadow-md">
-<button
-  onClick={() => handleEdit(libri)}
-  className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full transition-colors duration-300"
->
-  Përmirëso
-</button>
-<button
-  onClick={() => handleDelete(libri.id)}
-  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-full transition-colors duration-300"
->
-  Fshijë
-</button>
-<button
-  onClick={() => handleOrder(libri.id)}
-  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full transition-colors duration-300"
-  disabled={libri.statusi !== null && libri.statusi !== 'I Lirë'}
->
-  {libri.statusi === null || libri.statusi === 'I Lirë' ? 'Rezervo' : 'Libri i rezervuar'}
-</button>
-</div>
-<div className="mt-4 text-center space-y-2">
-<h3 className="text-lg font-bold text-blue-900">{libri.titulli}</h3>
-<p className="text-sm text-gray-700 font-medium">{libri.autori}</p>
-<div className="flex justify-center space-x-4 text-xs text-gray-500 font-semibold">
-  <span>{libri.pika}</span>
-  <span className={getStatusColor(libri.statusi)}>{libri.statusi === null ? 'I Lirë' : libri.statusi}</span>
-</div>
-</div>
-</div>
-))}
-</div>
-</div>
-</div>
-<Footer />
-</>
-);
+                <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-75 flex justify-around py-2 rounded-b-lg shadow-md">
+                  <button
+                    onClick={() => handleEdit(libri)}
+                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full transition-colors duration-300"
+                  >
+                    Përmirëso
+                  </button>
+                  <button
+                    onClick={() => handleDelete(libri.id)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-full transition-colors duration-300"
+                  >
+                    Fshijë
+                  </button>
+                  <button
+                    onClick={() => handleOrder(libri.id)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full transition-colors duration-300"
+                    disabled={libri.statusi !== null && libri.statusi !== 'I Lirë'}
+                  >
+                    {libri.statusi === null || libri.statusi === 'I Lirë' ? 'Rezervo' : 'Libri i rezervuar'}
+                  </button>
+                </div>
+                <div className="mt-4 text-center space-y-2">
+                  <h3 className="text-lg font-bold text-blue-900">{libri.titulli}</h3>
+                  <p className="text-sm text-gray-700 font-medium">{libri.autori}</p>
+                  <div className="flex justify-center space-x-4 text-xs text-gray-500 font-semibold">
+                    <span>{libri.pika}</span>
+                    <span className={getStatusColor(libri.statusi)}>{libri.statusi === null ? 'I Lirë' : libri.statusi}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
 };
 
 export default Libri;

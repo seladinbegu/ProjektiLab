@@ -7,10 +7,11 @@ using InpositionLibrary.DTOs.Libri;
 using InpositionLibrary.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.JsonPatch;
+using InpositionLibrary.Models;
 
 namespace InpositionLibrary.Controllers
 {
-        [Route("api/[Controller]")]
+    [Route("api/[Controller]")]
     [ApiController]
     public class LibriController : ControllerBase
     {
@@ -20,26 +21,30 @@ namespace InpositionLibrary.Controllers
             _context = context;
         }
 
-
-
         [HttpGet]
-        public IActionResult Get(){
+        public IActionResult Get()
+        {
             var libri = _context.Libri.ToList().Select(s => s.toLibriDto());
             return Ok(libri);
         }
-         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id){
+
+        [HttpGet("{id}")]
+        public IActionResult GetById([FromRoute] int id)
+        {
             var libri = _context.Libri.Find(id);
-            if(libri == null){
+            if (libri == null)
+            {
                 return NotFound();
             }
             return Ok(libri.toLibriDto());
         }
-        [HttpPut]
-        [Route("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdateLibriRequestDto updateDto){
+
+        [HttpPut("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateLibriRequestDto updateDto)
+        {
             var libriModel = _context.Libri.FirstOrDefault(p => p.Id == id);
-            if(libriModel == null){
+            if (libriModel == null)
+            {
                 return NotFound();
             }
             libriModel.Id = updateDto.Id;
@@ -49,29 +54,55 @@ namespace InpositionLibrary.Controllers
             libriModel.Statusi = updateDto.Statusi;
             libriModel.Pika = updateDto.Pika;
 
-
             _context.SaveChanges();
             return Ok(libriModel.toLibriDto());
         }
+
         [HttpPost]
         public IActionResult Create([FromBody] CreateLibriRequestDto libriDto)
         {
             var libriModel = libriDto.toLibriFromCreateDto();
             _context.Libri.Add(libriModel);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(GetById), new{ Id = libriModel.Id}, libriModel.toLibriDto());
-    }
-    [HttpDelete]
-        [Route("{id}")]
+            return CreatedAtAction(nameof(GetById), new { Id = libriModel.Id }, libriModel.toLibriDto());
+        }
+
+        [HttpDelete("{id}")]
         public IActionResult Delete([FromRoute] int id)
         {
             var libriModel = _context.Libri.FirstOrDefault(p => p.Id == id);
-            if(libriModel == null){
+            if (libriModel == null)
+            {
                 return NotFound();
             }
             _context.Libri.Remove(libriModel);
             _context.SaveChanges();
             return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult Patch([FromRoute] int id, [FromBody] JsonPatchDocument<Libri> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                return BadRequest();
+            }
+
+            var libriModel = _context.Libri.FirstOrDefault(p => p.Id == id);
+            if (libriModel == null)
+            {
+                return NotFound();
+            }
+
+            patchDoc.ApplyTo(libriModel, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.SaveChanges();
+            return Ok(libriModel.toLibriDto());
         }
     }
 }
