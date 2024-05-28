@@ -1,40 +1,42 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace InpositionLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class alban : Migration
+    public partial class RecreateLibriTable11111 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Lexuesi",
+                name: "Libri",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Emri = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmriPerdoruesit = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Fjalekalimi = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NumriTelefonit = table.Column<int>(type: "int", nullable: false),
+                    Titulli = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Autori = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Burimi = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Statusi = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Pika = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BiblotekaPika = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Lexuesi", x => x.Id);
+                    table.PrimaryKey("PK_Libri", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Lexuesi_Bibloteka_BiblotekaPika",
+                        name: "FK_Libri_Bibloteka_BiblotekaPika",
                         column: x => x.BiblotekaPika,
                         principalTable: "Bibloteka",
                         principalColumn: "Pika");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lexuesi_BiblotekaPika",
-                table: "Lexuesi",
+                name: "IX_Libri_BiblotekaPika",
+                table: "Libri",
                 column: "BiblotekaPika");
         }
 
@@ -42,7 +44,7 @@ namespace InpositionLibrary.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Lexuesi");
+                name: "Libri");
         }
     }
 }

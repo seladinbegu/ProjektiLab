@@ -21,7 +21,7 @@ namespace InpositionLibrary.Mappers
                       };
         }
 
-          public static Libri toLibriFromCreateDto(this CreateLibriDto libriDto){
+          public static Libri toLibriFromCreateDto(this CreateLibriRequestDto libriDto){
             return new Libri
             {
                 Titulli = libriDto.Titulli,
@@ -31,6 +31,10 @@ namespace InpositionLibrary.Mappers
                 Statusi = libriDto.Statusi
             };
 
+
+            
+
           }
+    
     }
 }

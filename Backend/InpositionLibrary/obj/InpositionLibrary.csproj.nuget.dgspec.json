@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj": {}
+    "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj": {}
   },
   "projects": {
-    "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj": {
+    "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
         "projectName": "InpositionLibrary",
-        "projectPath": "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
-        "packagesPath": "C:\\Users\\PC-SYSTEMS\\.nuget\\packages\\",
-        "outputPath": "D:\\Florent\\UBT-Florent\\Viti-2\\Semestri 4\\ProjektiLab\\Backend\\InpositionLibrary\\obj\\",
+        "projectPath": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\InpositionLibrary.csproj",
+        "packagesPath": "C:\\Users\\begus\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\begus\\OneDrive\\Desktop\\ProjektiLab\\Backend\\InpositionLibrary\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\PC-SYSTEMS\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\begus\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -50,9 +45,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

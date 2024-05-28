@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InpositionLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240525213713_baba2")]
-    partial class baba2
+    [Migration("20240528174906_init1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,28 +23,6 @@ namespace InpositionLibrary.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("InpositionLibrary.Models.Autori", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Emri")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LibriId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LibriId");
-
-                    b.ToTable("Autori");
-                });
 
             modelBuilder.Entity("InpositionLibrary.Models.Bibloteka", b =>
                 {
@@ -64,7 +42,7 @@ namespace InpositionLibrary.Migrations
                     b.ToTable("Bibloteka");
                 });
 
-            modelBuilder.Entity("InpositionLibrary.Models.Libri", b =>
+            modelBuilder.Entity("InpositionLibrary.Models.Lexuesi", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,25 +50,22 @@ namespace InpositionLibrary.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Autori")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("BiblotekaPika")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Burimi")
+                    b.Property<string>("Emri")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Pika")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Statusi")
+                    b.Property<string>("EmriPerdoruesit")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Titulli")
+                    b.Property<string>("Fjalekalimi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumriTelefonit")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -98,7 +73,7 @@ namespace InpositionLibrary.Migrations
 
                     b.HasIndex("BiblotekaPika");
 
-                    b.ToTable("Libri");
+                    b.ToTable("Lexuesi");
                 });
 
             modelBuilder.Entity("InpositionLibrary.Models.Punetori", b =>
@@ -130,18 +105,7 @@ namespace InpositionLibrary.Migrations
                     b.ToTable("Punetori");
                 });
 
-            modelBuilder.Entity("InpositionLibrary.Models.Autori", b =>
-                {
-                    b.HasOne("InpositionLibrary.Models.Libri", "Libri")
-                        .WithMany()
-                        .HasForeignKey("LibriId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Libri");
-                });
-
-            modelBuilder.Entity("InpositionLibrary.Models.Libri", b =>
+            modelBuilder.Entity("InpositionLibrary.Models.Lexuesi", b =>
                 {
                     b.HasOne("InpositionLibrary.Models.Bibloteka", "Bibloteka")
                         .WithMany()

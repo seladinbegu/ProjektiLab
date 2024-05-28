@@ -6,6 +6,8 @@ using InpositionLibrary.Data;
 using InpositionLibrary.DTOs.Libri;
 using InpositionLibrary.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.JsonPatch;
+
 namespace InpositionLibrary.Controllers
 {
         [Route("api/[Controller]")]
@@ -17,6 +19,9 @@ namespace InpositionLibrary.Controllers
         {
             _context = context;
         }
+
+
+
         [HttpGet]
         public IActionResult Get(){
             var libri = _context.Libri.ToList().Select(s => s.toLibriDto());
@@ -32,7 +37,7 @@ namespace InpositionLibrary.Controllers
         }
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdateLibriDto updateDto){
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateLibriRequestDto updateDto){
             var libriModel = _context.Libri.FirstOrDefault(p => p.Id == id);
             if(libriModel == null){
                 return NotFound();
@@ -49,7 +54,7 @@ namespace InpositionLibrary.Controllers
             return Ok(libriModel.toLibriDto());
         }
         [HttpPost]
-        public IActionResult Create([FromBody] CreateLibriDto libriDto)
+        public IActionResult Create([FromBody] CreateLibriRequestDto libriDto)
         {
             var libriModel = libriDto.toLibriFromCreateDto();
             _context.Libri.Add(libriModel);

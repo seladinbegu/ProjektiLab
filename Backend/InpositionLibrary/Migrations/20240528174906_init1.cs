@@ -24,6 +24,28 @@ namespace InpositionLibrary.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Lexuesi",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Emri = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmriPerdoruesit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Fjalekalimi = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NumriTelefonit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BiblotekaPika = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lexuesi", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Lexuesi_Bibloteka_BiblotekaPika",
+                        column: x => x.BiblotekaPika,
+                        principalTable: "Bibloteka",
+                        principalColumn: "Pika");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Punetori",
                 columns: table => new
                 {
@@ -45,6 +67,11 @@ namespace InpositionLibrary.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Lexuesi_BiblotekaPika",
+                table: "Lexuesi",
+                column: "BiblotekaPika");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Punetori_BiblotekaPika",
                 table: "Punetori",
                 column: "BiblotekaPika");
@@ -53,6 +80,9 @@ namespace InpositionLibrary.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Lexuesi");
+
             migrationBuilder.DropTable(
                 name: "Punetori");
 
