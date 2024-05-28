@@ -17,10 +17,19 @@ public class Startup
     {
         services.AddRazorPages();
         services.AddControllersWithViews();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+        services.AddControllers();
+        services.AddDbContext<ApplicationDBContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.useCors(options => options.WithOrigins("http://localhost:3000")
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -31,7 +40,11 @@ public class Startup
             app.UseHsts();
         }
 
-        
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(path.Combine(env.ContentRootPath, "images")),
+            RequestPath = "/images"
+        });
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
@@ -44,6 +57,11 @@ public class Startup
 
         app.MapDefaultControllerRoute(); 
         app.MapRazorPages(); 
+
+        app.useEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
 
         app.Run();
     }
