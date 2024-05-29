@@ -1,123 +1,134 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
+import { Link } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [username, setUsername] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [location, setLocation] = useState('');
+  const [formData, setFormData] = useState({
+    emri: '',
+    emriPerdoruesit: '',
+    fjalekalimi: '',
+    numriTelefonit: '',
+    pika: '',
+  });
+  const [error, setError] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Submitted:', { name, surname, username, phoneNumber, password, confirmPassword, location });
-    setName('');
-    setSurname('');
-    setUsername('');
-    setPhoneNumber('');
-    setPassword('');
-    setConfirmPassword('');
-    setLocation('');
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      console.log('Form data:', formData);
+      const response = await fetch('http://localhost:5132/api/Lexuesi', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      console.log('Response:', response);
+      if (!response.ok) {
+        throw new Error('Registration failed');
+      }
+      alert('Registration successful! Welcome.');
+      setError('');
+      setFormData({
+        emri: '',
+        emriPerdoruesit: '',
+        fjalekalimi: '',
+        numriTelefonit: '',
+        pika: '',
+      });
+    } catch (error) {
+      console.error('Registration failed:', error.message);
+      setError('Registration failed. Please try again later.');
+    }
+  };
+  
 
   return (
     <>
       <Header />
       <div className="flex justify-center items-center min-h-screen">
         <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg flex flex-col lg:flex-row">
-          {/* Left Part */}
           <div className="lg:w-1/2 pr-4">
-            <h2 className="text-2xl font-semibold mb-4 text-center lg:text-left">Regjistrohu</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-center lg:text-left">Register</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="flex flex-col lg:flex-row">
               <div>
-                <label htmlFor="email" className="block">Emri dhe Mbiemri:</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={username}
-                  onChange={(event) => setUsername(event.target.value)}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-               
-              </div>
-              <div>
-                <label htmlFor="email" className="block">Emri i Përdoruesit:</label>
+                <label htmlFor="emri" className="block">Emri:</label>
                 <input
                   type="text"
-                  id="emriiperdoruesit"
-                  value={username}
-                  onChange={(event) => setUsername(event.target.value)}
+                  id="emri"
+                  name="emri"
+                  value={formData.emri}
+                  onChange={handleChange}
                   required
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div>
-                <label htmlFor="phoneNumber" className="block">Numri i telefonit:</label>
+                <label htmlFor="emriPerdoruesit" className="block">Emri Perdoruesit:</label>
+                <input
+                  type="text"
+                  id="emriPerdoruesit"
+                  name="emriPerdoruesit"
+                  value={formData.emriPerdoruesit}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label htmlFor="fjalekalimi" className="block">Fjalëkalimi:</label>
+                <input
+                  type="password"
+                  id="fjalekalimi"
+                  name="fjalekalimi"
+                  value={formData.fjalekalimi}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label htmlFor="numriTelefonit" className="block">Numri Telefonit:</label>
                 <input
                   type="tel"
-                  id="phoneNumber"
-                  value={phoneNumber}
-                  onChange={(event) => setPhoneNumber(event.target.value)}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-            </form>
-          </div>
-          {/* Right Part */}
-          <div className="lg:w-1/2 pl-4 mt-4 lg:mt-0">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="password" className="block">Fjalëkalimi:</label>
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
+                  id="numriTelefonit"
+                  name="numriTelefonit"
+                  value={formData.numriTelefonit}
+                  onChange={handleChange}
                   required
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
                 />
               </div>
               <div>
-                <label htmlFor="confirmPassword" className="block">Konfirmoni Fjalëkalimin:</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(event) => setConfirmPassword(event.target.value)}
-                  required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="location" className="block">Pika:</label>
+                <label htmlFor="pika" className="block">Pika:</label>
                 <select
-                  id="location"
-                  value={location}
-                  onChange={(event) => setLocation(event.target.value)}
+                  id="pika"
+                  name="pika"
+                  value={formData.pika}
+                  onChange={handleChange}
                   required
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
                 >
-                  <option value="" disabled>Zgjedhni pikën</option>
+                  <option value="" disabled>Select Bibloteka Pika</option>
                   <option value="Vushtrri">Vushtrri</option>
-                  <option value="Peje">Pejë</option>
+                  <option value="Pejë">Pejë</option>
                   <option value="Prizren">Prizren</option>
                 </select>
               </div>
               <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md transition duration-300 ease-in-out">
-                Regjistrohu
+                Register
               </button>
             </form>
+            {error && <div className="text-red-500">{error}</div>}
             <div className="mt-4 text-center lg:text-left">
-              <span className="text-gray-600">Posedoni një llogari?</span>
-              <Link to="/login" className="text-blue-500 hover:underline ml-1">Kyqu</Link>
+              <span className="text-gray-600">Already have an account?</span>
+              <Link to="/login" className="text-blue-500 hover:underline ml-1">Log in</Link>
             </div>
           </div>
         </div>

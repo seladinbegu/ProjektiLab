@@ -1,6 +1,10 @@
+using InpositionLibrary.Controllers;
+using InpositionLibrary.Data;
+using InpositionLibrary.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +20,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(); // Add this line to use N
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<AuthController>();
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
@@ -36,6 +41,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        var key = Encoding.UTF8.GetBytes("YourSecretKeyHere1234567890123456789012adasjdsaudbsaudsaudhsaudbsaudbasudbsadbasudbsuadbusabdusabdusabdsuadbsajfbdskfjdabfyidsafjdabfaf78a1fadfasjhfdasudgias"); // Replace "YourSecretKeyHere1234567890123456789012" with your actual secret key
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -44,11 +51,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = "http://localhost:5132", // Local issuer URL
             ValidAudience = "http://localhost:5132", // Local audience URL
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSuperSecretKey")) // Strong secret key
+            
+            IssuerSigningKey = new SymmetricSecurityKey(key) // Strong secret key
         };
     });
 
-builder.Services.AddSingleton<TokenService>(new TokenService("YourSuperSecretKey")); // Ensure your secret key matches
+// Ensure your secret key matches
+builder.Services.AddSingleton<TokenService>();
+    builder.Services.AddScoped<IPasswordHasher<Lexuesi>, Microsoft.AspNetCore.Identity.PasswordHasher<Lexuesi>>();
+
 
 var app = builder.Build();
 
