@@ -13,7 +13,19 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InpositionLibrary")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< Updated upstream
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e959e3c51017d8ed666af5936412b5cbd390c102")]
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+82df9da786299fafca75d29f20d680617aade1c6")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e959e3c51017d8ed666af5936412b5cbd390c102")]
+>>>>>>> 8eff6530de04b18cef6bf9d61f68fc4dc74ada1a
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e959e3c51017d8ed666af5936412b5cbd390c102")]
+>>>>>>> 8eff6530de04b18cef6bf9d61f68fc4dc74ada1a
+>>>>>>> Stashed changes
 [assembly: System.Reflection.AssemblyProductAttribute("InpositionLibrary")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InpositionLibrary")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

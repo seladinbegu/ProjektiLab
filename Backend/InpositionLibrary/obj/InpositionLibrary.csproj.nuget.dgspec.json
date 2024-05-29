@@ -49,10 +49,25 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8eff6530de04b18cef6bf9d61f68fc4dc74ada1a
+>>>>>>> Stashed changes
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
               "version": "[8.0.0, )"
             },
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+>>>>>>> 8eff6530de04b18cef6bf9d61f68fc4dc74ada1a
+=======
+>>>>>>> 8eff6530de04b18cef6bf9d61f68fc4dc74ada1a
+>>>>>>> Stashed changes
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.0, )"
