@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace InpositionLibrary.Controllers
+namespace InpositionLibrary.Models
 {
-    public class UserController : ApiController
+    public class AppUser : Iden
     {
         
     }
