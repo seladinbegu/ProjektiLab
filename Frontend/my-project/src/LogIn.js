@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link
+import { useNavigate } from 'react-router-dom';
 
-const LogIn = ({ onLogin }) => {
+
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, []);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,23 +20,24 @@ const LogIn = ({ onLogin }) => {
         body: JSON.stringify({ userName: username, password }),
       });
       const data = await response.json();
-      console.log('Server response:', data); // Log the entire response object
+      console.log('Server response:', data);
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
       console.log('Login successful');
-      const loggedInUsername = data.userName; // Extract userName from response
+      const loggedInUsername = data.userName;
       console.log('Logged in as:', loggedInUsername);
-      onLogin(loggedInUsername, password); // Pass userName from server response
-      localStorage.setItem('token', data.token); // Store token in local storage
-      localStorage.setItem('username', loggedInUsername); // Store userName from server response
-      setPassword(''); // Reset password field
+      onLogin(loggedInUsername, password);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('username', loggedInUsername);
+      setPassword('');
+      // Redirect to the home page after successful login
+      navigate('/'); // Navigate to the home route
     } catch (error) {
       console.error('Login failed:', error.message);
       setError('Invalid username or password. Please check your credentials and try again.');
     }
   };
-  
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -83,4 +80,4 @@ const LogIn = ({ onLogin }) => {
   );
 };
 
-export default LogIn;
+export default Login;

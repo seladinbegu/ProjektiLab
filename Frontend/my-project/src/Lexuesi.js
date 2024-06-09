@@ -30,7 +30,7 @@ const UsersCrud = () => {
     return (
       <>
         <div className="container mx-auto p-6 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 200px)' }}>
-            <h2 className="text-3xl font-bold mb-6">Users</h2>
+            <h2 className="text-3xl font-bold mb-6">Lexuesit</h2>
             <ul className="divide-y divide-gray-200">
                 {usersList.map(user => (
                     <li key={user.id} className="py-4 flex justify-between items-center">

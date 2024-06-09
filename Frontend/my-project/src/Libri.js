@@ -87,7 +87,7 @@ const LibriCrud = () => {
     return (
         <>
         <div className="container mx-auto p-6 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 200px)' }}>
-            <h2 className="text-3xl font-bold mb-6">Libri</h2>
+            <h2 className="text-3xl font-bold mb-6">Libri CRUD</h2>
             <div className="mb-8">
                 <h3 className="text-2xl font-semibold mb-4">{isEditing ? 'Përmirëso Librin' : 'Shto Librin'}</h3>
                 <div className="flex flex-wrap mb-4">
