@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
 import Footer from './Footer';
 
 function Punetori() {
@@ -158,7 +157,6 @@ function Punetori() {
 
   return (
     <>
-      <Header />
       <div className="min-h-screen bg-gray-100 overflow-y-auto">
         <div className="max-w-lg mx-auto mt-8 bg-white shadow-md p-8 rounded-md">
           <h1 className="text-3xl font-semibold text-gray-800 mb-6"> Lista e Punetorëve</h1>
@@ -188,6 +186,7 @@ function Punetori() {
               <div className="mb-4">
                 <label htmlFor="pika" className="block text-sm font-medium text-gray-700">Zgjedhni Pikën:</label>
                 <select id="pika" name="pika" value={formData.pika} onChange={handlePikaChange} className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value=""></option>
                   <option value="Pejë">Pejë</option>
                   <option value="Vushtrri">Vushtrri</option>
                   <option value="Prizren">Prizren</option>
@@ -198,6 +197,7 @@ function Punetori() {
               <div className="mb-4">
                 <label htmlFor="pozita" className="block text-sm font-medium text-gray-700">Zgjedhni Pozitën:</label>
                 <select id="pozita" name="pozita" value={formData.pozita} onChange={handlePozitaChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value=""></option>
                   <option value="Punetor">Punëtor</option>
                   <option value="Menaxher">Menaxher</option>
                   <option value="Arkatar">Arkatar</option>

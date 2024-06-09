@@ -5,21 +5,17 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace InpositionLibrary.Models
+
 {
     public class RegisterModel
     {
-          [Required(ErrorMessage = "Name is required")]
-        public string Emri { get; set; }
-
         [Required(ErrorMessage = "Username is required")]
-        public string EmriPerdoruesit { get; set; }
+        public required string Username { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
-        public string Fjalekalimi { get; set; }
-
-        [Required(ErrorMessage = "Phone number is required")]
-        public string NumriTelefonit { get; set; }
+        public required string Password { get; set; }
 
         public Bibloteka? Bibloteka { get; set; }
     }
 }
+

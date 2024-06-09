@@ -15,26 +15,22 @@ namespace InpositionLibrary.Mappers
                 Id = libriModel.Id,
                 Titulli = libriModel.Titulli,
                 Autori = libriModel.Autori,
-                Pika = libriModel.Pika,
                 Burimi = libriModel.Burimi,
-                Statusi = libriModel.Statusi
+                Statusi = libriModel.Statusi,
+                Pika = libriModel.Pika
+
                       };
         }
 
           public static Libri toLibriFromCreateDto(this CreateLibriRequestDto libriDto){
             return new Libri
             {
-                Titulli = libriDto.Titulli,
+                 Titulli = libriDto.Titulli,
                 Autori = libriDto.Autori,
-                Pika = libriDto.Pika,
                 Burimi = libriDto.Burimi,
-                Statusi = libriDto.Statusi
+                Statusi = libriDto.Statusi,
+                Pika = libriDto.Pika
             };
-
-
-            
-
-          }
-    
     }
+}
 }

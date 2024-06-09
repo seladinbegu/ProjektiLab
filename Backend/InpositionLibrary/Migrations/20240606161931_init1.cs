@@ -1,14 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InpositionLibrary.Migrations
 {
-    /// <inheritdoc />
-    public partial class RecreateLibriTable11111 : Migration
+    public partial class init1 : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -20,8 +15,8 @@ namespace InpositionLibrary.Migrations
                     Titulli = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Autori = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Burimi = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Statusi = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Pika = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Statusi = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Pika = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BiblotekaPika = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -40,7 +35,6 @@ namespace InpositionLibrary.Migrations
                 column: "BiblotekaPika");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

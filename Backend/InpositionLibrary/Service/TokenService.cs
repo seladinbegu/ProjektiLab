@@ -1,51 +1,46 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Security.Cryptography;
+using System.Threading.Tasks;
+using InpositionLibrary.Interfaces;
+using InpositionLibrary.Models;
+using Microsoft.IdentityModel.Tokens;
 
-namespace YourProject.Services
+namespace InpositionLibrary.Service
 {
-    public class TokenService
+    public class TokenService : ITokenService
     {
-        private readonly byte[] _secretKey;
-
-        public TokenService()
+        private readonly IConfiguration _config;
+        private readonly SymmetricSecurityKey _key;
+        public TokenService(IConfiguration config)
         {
-            // Generate a random secret key with 256 bits of random entropy
-            _secretKey = Generate256BitsOfRandomEntropy();
+            _config = config;
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigninKey"]));
         }
-
-        public string GenerateToken(string username)
+        public string CreateToken(Lexuesi lexuesi)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Email, lexuesi.Email),
+                new Claim(JwtRegisteredClaimNames.GivenName, lexuesi.UserName)
             };
 
-            var key = new SymmetricSecurityKey(_secretKey);
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: "http://localhost:5132", // Local issuer URL
-                audience: "http://localhost:5132", // Local audience URL
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        private byte[] Generate256BitsOfRandomEntropy()
-        {
-            byte[] key = new byte[32]; // 256 bits
-            using (var rng = RandomNumberGenerator.Create())
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                rng.GetBytes(key);
-            }
-            return key;
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(7),
+                SigningCredentials = creds,
+                Issuer = _config["JWT:Issuer"],
+                Audience = _config["JWT:Audience"]
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
         }
     }
 }

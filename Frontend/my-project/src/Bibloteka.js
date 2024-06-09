@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Footer from './Footer';
-import Header from './Header';
 
 const BiblotekaForm = () => {
   const [biblotekaData, setBiblotekaData] = useState({
@@ -21,7 +19,7 @@ const BiblotekaForm = () => {
       const data = await response.json();
       setBiblotekaList(data);
     } catch (error) {
-      console.error('Error fetching bibloteka list:', error);
+      console.error('Gabim në marrjen e pikave:', error);
     }
   };
 
@@ -59,7 +57,7 @@ const BiblotekaForm = () => {
       setBiblotekaData({ pika: '', adresa: '', kontakti: '' });
       setIsEditing(false);
     } catch (error) {
-      console.error('Error creating/updating bibloteka:', error);
+      console.error('Gabim në krijimin/përditësimin e biblotekës:', error);
     }
   };
 
@@ -70,13 +68,12 @@ const BiblotekaForm = () => {
       });
       fetchBiblotekaList();
     } catch (error) {
-      console.error('Error deleting bibloteka:', error);
+      console.error('Gabim në fshirjen e biblotekës:', error);
     }
   };
 
   return (
     <>
-    <Header />
 
     <div className="overflow-x-hidden overflow-y-auto mb-14">
       <div className="container mx-auto mt-8 max-h-screen mb-8">
@@ -146,7 +143,7 @@ const BiblotekaForm = () => {
               <p>Kontakti: {bibloteka.kontakti}</p>
               <div className="mt-2">
                 <button
-                  className="bg-green-500 text-white py-1 px-2 rounded-md mr-2 hover:bg-green-600"
+                  className="bg-blue-500 text-white py-1 px-2 rounded-md mr-2 hover:bg-green-600"
                   onClick={() => handleEdit(bibloteka)}
                 >
                   Përmirëso
@@ -163,7 +160,6 @@ const BiblotekaForm = () => {
         </ul>
       </div>
     </div>
-          <Footer />
           </>
 
   );

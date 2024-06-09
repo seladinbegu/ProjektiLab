@@ -1,6 +1,8 @@
 using InpositionLibrary.Controllers;
 using InpositionLibrary.Data;
+using InpositionLibrary.Interfaces;
 using InpositionLibrary.Models;
+using InpositionLibrary.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,20 +13,48 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using YourProject.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers().AddNewtonsoftJson(); // Add this line to use NewtonsoftJson
-
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<AuthController>();
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddIdentity<Lexuesi, IdentityRole>(options => {
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 12;
+})
+.AddEntityFrameworkStores<ApplicationDBContext>();
+
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = 
+    options.DefaultChallengeScheme = 
+    options.DefaultForbidScheme = 
+    options.DefaultScheme = 
+    options.DefaultSignInScheme = 
+    options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options => {
+    options.TokenValidationParameters = new TokenValidationParameters{
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigninKey"])
+        )
+    };
 });
 
 builder.Services.AddCors(options =>
@@ -37,30 +67,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configure JWT Authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        var key = Encoding.UTF8.GetBytes("YourSecretKeyHere1234567890123456789012adasjdsaudbsaudsaudhsaudbsaudbasudbsadbasudbsuadbusabdusabdusabdsuadbsajfbdskfjdabfyidsafjdabfaf78a1fadfasjhfdasudgias"); // Replace "YourSecretKeyHere1234567890123456789012" with your actual secret key
 
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = "http://localhost:5132", // Local issuer URL
-            ValidAudience = "http://localhost:5132", // Local audience URL
-            
-            IssuerSigningKey = new SymmetricSecurityKey(key) // Strong secret key
-        };
-    });
-
-// Ensure your secret key matches
-builder.Services.AddSingleton<TokenService>();
-    builder.Services.AddScoped<IPasswordHasher<Lexuesi>, Microsoft.AspNetCore.Identity.PasswordHasher<Lexuesi>>();
-
-
+ 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -71,11 +79,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Register the custom error handling middleware
+
 app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
 
-app.UseAuthentication(); // Ensure authentication middleware is used
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
