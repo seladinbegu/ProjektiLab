@@ -38,15 +38,13 @@ const UsersCrud = () => {
                             <h4 className="text-xl font-semibold mb-1">{user.userName}</h4>
                             <p className="text-gray-700"><strong>Email:</strong> {user.email}</p>
                             <p className="text-gray-700"><strong>Fjalëkalimi:</strong> {user.passwordHash}</p>
-                            {user.userName === 'seladinbegu' && (
-                                <p className="text-blue-500 font-semibold">ADMIN</p>
-                            )}
+                            
                         </div>
                         <div className="flex items-center">
     {user.userName === 'seladinbegu' ? (
-        <p className="text-blue-600 font-semibold">ADMIN</p>
+        <p className="text-red-600 font-semibold">ADMIN</p>
     ) : (
-        <button onClick={() => handleDelete(user.id)} className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600">Delete</button>
+        <button onClick={() => handleDelete(user.id)} className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600">Fshijë</button>
     )}
 </div>
 

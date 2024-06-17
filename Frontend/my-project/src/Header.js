@@ -46,8 +46,8 @@ const Header = ({ isLoggedIn, username, onLogout }) => {
       <nav className={`flex-col lg:flex-row flex lg:flex items-center mt-4 lg:mt-0 ${isMenuOpen ? 'flex' : 'hidden'} lg:flex`}>
         <Link to="/" className="text-white transition duration-300 ease-in-out hover:bg-[#1db2d4] hover:transform-gpu hover:translate-y-1 mt-2 lg:mt-0 ml-0 lg:ml-2 py-2 px-3 rounded-lg" onClick={handleNavClick}>Kreu</Link>
         <Link to="/librireservation" className="text-white transition duration-300 ease-in-out hover:bg-[#1db2d4] hover:transform-gpu hover:translate-y-1 mt-2 lg:mt-0 ml-0 lg:ml-2 py-2 px-3 rounded-lg" onClick={handleNavClick}>Librat</Link>
-        <Link to="/contact" className="text-white transition duration-300 ease-in-out hover:bg-[#1db2d4] hover:transform-gpu hover:translate-y-1 mt-2 lg:mt-0 ml-0 lg:ml-2 py-2 px-3 rounded-lg" onClick={handleNavClick}>Kontakti</Link>
-        <Link to="/about" className="text-white transition duration-300 ease-in-out hover:bg-[#1db2d4] hover:transform-gpu hover:translate-y-1 mt-2 lg:mt-0 ml-0 lg:ml-2 py-2 px-3 rounded-lg" onClick={handleNavClick}>Rreth nesh</Link>
+        <Link to="/contactus" className="text-white transition duration-300 ease-in-out hover:bg-[#1db2d4] hover:transform-gpu hover:translate-y-1 mt-2 lg:mt-0 ml-0 lg:ml-2 py-2 px-3 rounded-lg" onClick={handleNavClick}>Kontakti</Link>
+        <Link to="/aboutus" className="text-white transition duration-300 ease-in-out hover:bg-[#1db2d4] hover:transform-gpu hover:translate-y-1 mt-2 lg:mt-0 ml-0 lg:ml-2 py-2 px-3 rounded-lg" onClick={handleNavClick}>Rreth Nesh</Link>
         {isLoggedIn ? (
           <div className="relative mt-2 lg:mt-0">
             <button onClick={toggleDropdown} className="flex items-center ml-0 lg:ml-2 focus:outline-none">
@@ -58,7 +58,7 @@ const Header = ({ isLoggedIn, username, onLogout }) => {
               <div className="py-1">
                 <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200">
                   <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-                  Logout
+                  Dil
                 </button>
               </div>
             </div>

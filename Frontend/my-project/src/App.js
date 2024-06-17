@@ -12,6 +12,9 @@ import Main from './Main';
 import LibriReservation from './Services/LibriReservation';
 import EmailForm from './EmailForm';
 import axios from 'axios';
+import AboutUs from './AboutUs';
+import ContactUs from './ContactUs';
+
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -85,6 +88,10 @@ export default function App() {
 />
 
           <Route path="/email" element={<EmailForm />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/contactus" element={<ContactUs />} />
+
+
         </Routes>
       </Router>
     </div>
