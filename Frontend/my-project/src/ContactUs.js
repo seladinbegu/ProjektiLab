@@ -37,7 +37,7 @@ const ContactUs = () => {
                 <p className="text-lg mb-2">E Shtunë: <strong>10:00 - 12:00</strong></p>
                 <p className="text-lg mb-4">E Diel: <strong>Mbyllur</strong></p>
 
-                <h3 className="text-2xl font-semibold mb-2">Na Ndiqni</h3>
+                <h3 className="text-2xl font-semibold mb-2">Na Ndjekni</h3>
                 <div className="flex justify-center md:justify-start space-x-4">
                   <button className="text-blue-600 hover:text-blue-400" onClick={() => window.open('https://www.facebook.com/yourpage')}>
                     <FontAwesomeIcon icon={faFacebookF} size="2x" />

@@ -184,9 +184,9 @@ function Punetori() {
 
             {fetchType === 'pika' && (
               <div className="mb-4">
-                <label htmlFor="pika" className="block text-sm font-medium text-gray-700">Zgjedhni Pikën:</label>
+                <label htmlFor="pika" className="block text-sm font-medium text-gray-700"></label>
                 <select id="pika" name="pika" value={formData.pika} onChange={handlePikaChange} className="mt-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <option value=""></option>
+                <option value="">Zgjedhni Pikën</option>
                   <option value="Pejë">Pejë</option>
                   <option value="Vushtrri">Vushtrri</option>
                   <option value="Prizren">Prizren</option>
@@ -195,9 +195,9 @@ function Punetori() {
             )}
             {fetchType === 'pozita' && (
               <div className="mb-4">
-                <label htmlFor="pozita" className="block text-sm font-medium text-gray-700">Zgjedhni Pozitën:</label>
+                <label htmlFor="pozita" className="block text-sm font-medium text-gray-700"></label>
                 <select id="pozita" name="pozita" value={formData.pozita} onChange={handlePozitaChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <option value=""></option>
+                <option value="">Zgjedhni Pozitën</option>
                   <option value="Punetor">Punëtor</option>
                   <option value="Menaxher">Menaxher</option>
                   <option value="Arkatar">Arkatar</option>
