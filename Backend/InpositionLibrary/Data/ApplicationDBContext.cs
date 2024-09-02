@@ -10,19 +10,23 @@ using Microsoft.Identity.Client;
 
 namespace InpositionLibrary.Data
 {
-    public class ApplicationDBContext : IdentityDbContext<Lexuesi>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
-        public ApplicationDBContext(DbContextOptions dbContextOptions)
+        public ApplicationDbContext(DbContextOptions dbContextOptions)
          : base(dbContextOptions)
         {}
             public DbSet<Bibloteka> Bibloteka{get; set;}
             public DbSet<Punetori> Punetori { get; set; }
+             public DbSet<RefreshToken> RefreshToken { get; set; }
+
+    public DbSet<Reservations> Reservations { get; set; }
+
 
             public DbSet<Libri> Libri { get; set; }
 
 
-            public DbSet<Lexuesi> Lexuesi {get; set;}
-            public DbSet<Reservation> Reservation{get; set;}
+            public DbSet<User> User {get; set;}
+            // public DbSet<Reservation> Reservation{get; set;}
             
 
 

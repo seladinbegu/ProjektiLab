@@ -1,45 +1,78 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using InpositionLibrary.Interfaces;
-using InpositionLibrary.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using InpositionLibrary.Models;
+using InpositionLibrary.Data;
+using InpositionLibrary.Service;
 
-namespace InpositionLibrary.Service
+namespace InpositionLibrary.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly IConfiguration _config;
-        private readonly SymmetricSecurityKey _key;
-        public TokenService(IConfiguration config)
+        private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _configuration;
+
+        public TokenService(ApplicationDbContext context, IConfiguration configuration)
         {
-            _config = config;
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigninKey"]));
+            _context = context;
+            _configuration = configuration;
         }
-        public string CreateToken(Lexuesi lexuesi)
+
+        public async Task<string> GenerateRefreshTokenAsync(User user)
         {
-            var claims = new List<Claim>
+            var refreshToken = new RefreshToken
             {
-                new Claim(JwtRegisteredClaimNames.Email, lexuesi.Email),
-                new Claim(JwtRegisteredClaimNames.GivenName, lexuesi.UserName)
+                Token = Guid.NewGuid().ToString(),
+                ExpiryDate = DateTime.UtcNow.AddDays(7),
+                UserId = user.Id,
+                User = user
             };
 
-            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+            _context.RefreshToken.Add(refreshToken);
+            await _context.SaveChangesAsync();
+
+            return refreshToken.Token;
+        }
+
+        public async Task<RefreshToken> GetRefreshTokenAsync(string token)
+        {
+            return await _context.RefreshToken.SingleOrDefaultAsync(rt => rt.Token == token);
+        }
+
+        public async Task RevokeRefreshTokenAsync(string token)
+        {
+            var refreshToken = await GetRefreshTokenAsync(token);
+            if (refreshToken != null)
+            {
+                _context.RefreshToken.Remove(refreshToken);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public string GenerateJwtToken(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["JWT:SigninKey"]);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
-                SigningCredentials = creds,
-                Issuer = _config["JWT:Issuer"],
-                Audience = _config["JWT:Audience"]
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                Issuer = _configuration["JWT:Issuer"],
+                Audience = _configuration["JWT:Audience"],
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
 
+            var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
     }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using InpositionLibrary.Data;
 using InpositionLibrary.DTOs.Libri;
 using InpositionLibrary.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InpositionLibrary.Controllers
@@ -13,11 +14,20 @@ namespace InpositionLibrary.Controllers
     [ApiController]
     public class LibriController: ControllerBase
     {
-           private readonly ApplicationDBContext _context;
-        public LibriController(ApplicationDBContext context)
+           private readonly ApplicationDbContext _context;
+        public LibriController(ApplicationDbContext context)
         {
             _context = context;
         }
+
+
+
+
+
+
+
+
+
 
 
         [HttpGet]
@@ -27,20 +37,33 @@ namespace InpositionLibrary.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult Create([FromBody] CreateLibriRequestDto libriDto)
-        {
-            var libriModel = libriDto.toLibriFromCreateDto();
-            _context.Libri.Add(libriModel);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new{Id = libriModel.Id}, libriModel.toLibriDto());
-        }
+
+
+
+
+
+
+
+    [HttpPost]
+[Authorize(Roles = "Admin")]
+public IActionResult Create([FromBody] LibriCreateDto libriDto)
+{
+    if (libriDto == null)
+    {
+        return BadRequest("Invalid data.");
+    }
+
+    var libriModel = libriDto.toLibriFromCreateDto();
+    _context.Libri.Add(libriModel);
+    _context.SaveChanges();
+    return CreatedAtAction(nameof(Get), new { Id = libriModel.Id }, libriModel.toLibriDto());
+}
 
 
 
 [HttpPut]
 [Route("{id}")]
-public IActionResult Update([FromRoute] int id, [FromBody] UpdateLibriRequestDto updateDto)
+public IActionResult Update([FromRoute] int id, [FromBody] LibriUpdateDto updateDto)
 {
     var libriModel = _context.Libri.FirstOrDefault(b => b.Id == id);
     if (libriModel == null)
@@ -48,11 +71,9 @@ public IActionResult Update([FromRoute] int id, [FromBody] UpdateLibriRequestDto
         return NotFound();
     }
 
-    libriModel.Id = updateDto.Id;
     libriModel.Titulli = updateDto.Titulli;
     libriModel.Autori = updateDto.Autori;
     libriModel.Burimi = updateDto.Burimi;
-    libriModel.Pika = updateDto.Pika;
 
     // Update the status to the new status provided in the request
     libriModel.Statusi = updateDto.Statusi;
@@ -69,6 +90,8 @@ public IActionResult Update([FromRoute] int id, [FromBody] UpdateLibriRequestDto
 
 
         [HttpDelete]
+                [Authorize(Roles = "Admin")] // Restrict this action to admin users
+
         [Route("{id}")]
         public IActionResult Delete([FromRoute] int id)
         {

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import api from './Api'; // Import your Axios instance
+import Cookies from 'js-cookie';
 
 const BiblotekaForm = () => {
   const [biblotekaData, setBiblotekaData] = useState({
+    id: '', // Include id in the state for operations but not in the form
     pika: '',
     adresa: '',
     kontakti: ''
@@ -15,11 +18,16 @@ const BiblotekaForm = () => {
 
   const fetchBiblotekaList = async () => {
     try {
-      const response = await fetch('http://localhost:5132/api/Bibloteka');
-      const data = await response.json();
-      setBiblotekaList(data);
+      console.log('Making request with token:', Cookies.get('AuthToken')); // Log the token
+      const response = await api.get('/Bibloteka');
+      setBiblotekaList(response.data);
     } catch (error) {
-      console.error('Gabim në marrjen e pikave:', error);
+      if (error.response && error.response.status === 401) {
+        console.error('Unauthorized access - redirecting to login.');
+        // Handle unauthorized access, e.g., redirect to login
+      } else {
+        console.error('Error fetching Bibloteka list:', error);
+      }
     }
   };
 
@@ -36,59 +44,50 @@ const BiblotekaForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (isEditing) {
-        await fetch(`http://localhost:5132/api/Bibloteka/${biblotekaData.pika}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(biblotekaData)
-        });
-      } else {
-        await fetch('http://localhost:5132/api/Bibloteka', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(biblotekaData)
-        });
-      }
+      const method = isEditing ? 'put' : 'post';
+      const url = isEditing
+        ? `/Bibloteka/${biblotekaData.id}` // Use id for PUT
+        : '/Bibloteka';
+
+      await api[method](url, {
+        pika: biblotekaData.pika,
+        adresa: biblotekaData.adresa,
+        kontakti: biblotekaData.kontakti
+      }); // Exclude id from POST data
+
       fetchBiblotekaList();
-      setBiblotekaData({ pika: '', adresa: '', kontakti: '' });
+      setBiblotekaData({ id: '', pika: '', adresa: '', kontakti: '' });
       setIsEditing(false);
     } catch (error) {
-      console.error('Gabim në krijimin/përditësimin e biblotekës:', error);
+      if (error.response && error.response.status === 401) {
+        console.error('Unauthorized access - redirecting to login.');
+        // Redirect to login or handle logout
+      } else {
+        console.error('Error creating/updating Bibloteka:', error);
+      }
     }
   };
 
-  const handleDelete = async (pika) => {
+  const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:5132/api/Bibloteka/${pika}`, {
-        method: 'DELETE'
-      });
+      await api.delete(`/Bibloteka/${id}`); // Use id for DELETE
       fetchBiblotekaList();
     } catch (error) {
-      console.error('Gabim në fshirjen e biblotekës:', error);
+      if (error.response && error.response.status === 401) {
+        console.error('Unauthorized access - redirecting to login.');
+        // Redirect to login or handle logout
+      } else {
+        console.error('Error deleting Bibloteka:', error);
+      }
     }
   };
 
-  return (
-    <>
+  console.log('AccessToken:', Cookies.get('accessToken'));
 
+  return (
     <div className="overflow-x-hidden overflow-y-auto mb-14">
       <div className="container mx-auto mt-8 max-h-screen mb-8">
         <h2 className="text-2xl font-bold mb-4">Pikat</h2>
-        <div className="flex justify-end mb-4">
-          
-          {isEditing && (
-            <button
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-              onClick={handleSubmit}
-            >
-              Përmirëso
-            </button>
-          )}
-        </div>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-3 gap-4">
             <div>
@@ -100,7 +99,6 @@ const BiblotekaForm = () => {
                 value={biblotekaData.pika}
                 onChange={handleInputChange}
                 className="border rounded-md p-2 w-full"
-                enabled={isEditing}
               />
             </div>
             <div>
@@ -133,11 +131,11 @@ const BiblotekaForm = () => {
             {isEditing ? 'Përmirëso' : 'Krijo'}
           </button>
         </form>
-  
+
         <h2 className="text-2xl font-bold mt-8">Lista e Pikave</h2>
         <ul>
           {biblotekaList.map((bibloteka) => (
-            <li key={bibloteka.pika} className="mt-4 border rounded-md p-4">
+            <li key={bibloteka.id} className="mt-4 border rounded-md p-4">
               <p>Pika: {bibloteka.pika}</p>
               <p>Adresa: {bibloteka.adresa}</p>
               <p>Kontakti: {bibloteka.kontakti}</p>
@@ -150,7 +148,7 @@ const BiblotekaForm = () => {
                 </button>
                 <button
                   className="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600"
-                  onClick={() => handleDelete(bibloteka.pika)}
+                  onClick={() => handleDelete(bibloteka.id)} // Pass id to delete
                 >
                   Fshijë
                 </button>
@@ -160,10 +158,7 @@ const BiblotekaForm = () => {
         </ul>
       </div>
     </div>
-          </>
-
   );
-  
 };
 
 export default BiblotekaForm;

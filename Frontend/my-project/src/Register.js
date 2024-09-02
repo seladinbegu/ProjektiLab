@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import api from './Api';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ const Register = () => {
     Password: '',
   });
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // For navigation
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,28 +19,22 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5132/api/account/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        throw new Error('Registration failed');
+      const response = await api.post('/Auth/registermodel', formData); // Use api instance
+      if (response.status === 200) {
+        alert('Regjistrimi u krye me sukses! Mirë se vini.');
+        setError('');
+        setFormData({
+          UserName: '',
+          Email: '',
+          Password: '',
+        });
+        navigate('/'); // Redirect to home page after successful registration
+      } else {
+        throw new Error('Regjistrimi dështoi');
       }
-      alert('Registration successful! Welcome.');
-      setError('');
-      setFormData({
-        UserName: '',
-        Email: '',
-        Password: '',
-      });
-      window.location.href = '/'; // Change the path to your main page
-      
     } catch (error) {
-      console.error('Registration failed:', error.message);
-      setError('Registration failed. Please try again later.');
+      console.error('Regjistrimi dështoi:', error.response?.data?.message || error.message);
+      setError('Regjistrimi dështoi. Ju lutem provoni përsëri më vonë.');
     }
   };
 

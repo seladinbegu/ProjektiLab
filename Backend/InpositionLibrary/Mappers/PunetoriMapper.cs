@@ -15,18 +15,20 @@ namespace InpositionLibrary.Mappers
                 Id = punetoriModel.Id,
                 Emri = punetoriModel.Emri,
                 Pozita = punetoriModel.Pozita,
-                Pika = punetoriModel.Pika
+                BiblotekaId = punetoriModel.BiblotekaId
                       };
         }
 
-          public static Punetori toPunetoriFromCreateDto(this CreatePunetoriRequestDto punetoriDto){
+          public static Punetori toPunetoriFromCreateDto(this PunetoriCreateDto punetoriDto){
             return new Punetori
             {
                 Emri = punetoriDto.Emri,
                 Pozita = punetoriDto.Pozita,
-                Pika = punetoriDto.Pika
+                BiblotekaId = punetoriDto.BiblotekaId
             };
 
           }
+    
+
     }
 }

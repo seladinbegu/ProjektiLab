@@ -5,16 +5,19 @@ using System.Threading.Tasks;
 using InpositionLibrary.Data;
 using InpositionLibrary.DTOs.Punetori;
 using InpositionLibrary.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InpositionLibrary.Controllers
 {
        [Route("api/[Controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
       public class PunetoriController : ControllerBase
     {
-         private readonly ApplicationDBContext _context;
-        public PunetoriController(ApplicationDBContext context)
+         private readonly ApplicationDbContext _context;
+        public PunetoriController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -41,9 +44,9 @@ namespace InpositionLibrary.Controllers
 
         }
    [HttpGet("bypika/{pika}")]
-public IActionResult GetByPika([FromRoute] string pika)
+public IActionResult GetByPika([FromRoute] int biblotekaid)
 {
-    var punetori = _context.Punetori.Where(p => p.Pika == pika).ToList();
+    var punetori = _context.Punetori.Where(p => p.BiblotekaId == biblotekaid).ToList();
 
     if (punetori == null || punetori.Count == 0)
     {
@@ -70,7 +73,7 @@ public IActionResult GetByPozita([FromRoute] string pozita)
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdatePunetoriRequestDto updateDto){
+        public IActionResult Update([FromRoute] int id, [FromBody] PunetoriUpdateDto updateDto){
             var punetoriModel = _context.Punetori.FirstOrDefault(p => p.Id == id);
             if(punetoriModel == null){
                 return NotFound();
@@ -78,7 +81,7 @@ public IActionResult GetByPozita([FromRoute] string pozita)
             punetoriModel.Id = updateDto.Id;
             punetoriModel.Emri = updateDto.Emri;
             punetoriModel.Pozita = updateDto.Pozita;
-            punetoriModel.Pika = updateDto.Pika;
+            punetoriModel.BiblotekaId = updateDto.BiblotekaId;
 
 
             _context.SaveChanges();
@@ -89,7 +92,7 @@ public IActionResult GetByPozita([FromRoute] string pozita)
 
 
             [HttpPost]
-        public IActionResult Create([FromBody] CreatePunetoriRequestDto punetoriDto)
+        public IActionResult Create([FromBody] PunetoriCreateDto punetoriDto)
         {
             var punetoriModel = punetoriDto.toPunetoriFromCreateDto();
             _context.Punetori.Add(punetoriModel);

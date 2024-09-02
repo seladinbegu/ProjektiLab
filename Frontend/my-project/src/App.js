@@ -9,21 +9,35 @@ import Bibloteka from './Bibloteka';
 import Libri from './Libri';
 import Lexuesi from './Lexuesi';
 import Main from './Main';
-import LibriReservation from './Services/LibriReservation';
+import LibriReservation from './LibriReservation';
 import EmailForm from './EmailForm';
-import axios from 'axios';
 import AboutUs from './AboutUs';
 import ContactUs from './ContactUs';
-
+import Cookies from 'js-cookie';
+import { api, setupInterceptors } from './AxiosConfig'; // Import the configured Axios instance and setup function
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUsername('');
+    setEmail('');
+
+    // Clear cookies
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
+    Cookies.remove('username');
+    Cookies.remove('email');
+  };
+
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    const storedEmail = localStorage.getItem('email');
+    setupInterceptors(handleLogout); // Setup interceptors with handleLogout
+
+    const storedUsername = Cookies.get('username');
+    const storedEmail = Cookies.get('email');
     if (storedUsername && storedEmail) {
       setIsLoggedIn(true);
       setUsername(storedUsername);
@@ -33,46 +47,41 @@ export default function App() {
 
   const handleLogin = async (username, password) => {
     try {
-      if (!username || !password) {
-        throw new Error('Username and password are required.');
-      }
-  
-      const response = await axios.post('http://localhost:5132/api/account/login', {
-        userName: username,
+      console.log('Attempting login with username:', username);
+      const response = await api.post('/api/Auth/login', {
+        username,
         password,
-      });
+    });
+    
   
-      const { data } = response; // Destructure the response
-      const loggedInUsername = data.userName; // Extract username from response
-      const email = data.email; // Extract email from response
-      setIsLoggedIn(true);
-      setUsername(loggedInUsername);
-      setEmail(email);
-      localStorage.setItem('username', loggedInUsername);
-      localStorage.setItem('email', email);
-      console.log('Logged in as:', loggedInUsername, 'with email:', email);
+      console.log('Received response:', response);
+      if (response.status === 200) {
+        const { accessToken, refreshToken, userName, email } = response.data;
+  
+        // Set cookies
+        Cookies.set('accessToken', accessToken, { expires: 1 });
+        Cookies.set('refreshToken', refreshToken, { expires: 7 });
+        Cookies.set('username', userName);
+        Cookies.set('email', email);
+  
+        console.log('Logged in as:', userName, 'with email:', email);
+        setIsLoggedIn(true);
+        setUsername(userName);
+        setEmail(email);
+      } else {
+        console.log('Login failed with status:', response.status);
+        throw new Error('Login failed');
+      }
     } catch (error) {
       console.error('Error logging in:', error.message);
-      // Handle login error (e.g., display error message to user)
     }
   };
   
-  
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUsername('');
-    setEmail('');
-    localStorage.removeItem('username');
-    localStorage.removeItem('email');
-    localStorage.removeItem('token');
-  };
 
   return (
     <div>
       <Router>
-      <Header isLoggedIn={isLoggedIn} username={username} onLogout={handleLogout} />
-
+        <Header isLoggedIn={isLoggedIn} username={username} onLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LogIn onLogin={handleLogin} />} />
@@ -82,16 +91,10 @@ export default function App() {
           <Route path="/libri" element={<Libri />} />
           <Route path="/lexuesi" element={<Lexuesi />} />
           <Route path="/main" element={<Main />} />
-          <Route
-    path="/librireservation"
-    element={<LibriReservation loggedInUsername={username} userEmail={email} />} // Pass userEmail prop here
-/>
-
+          <Route path="/librireservation" element={<LibriReservation loggedInUsername={username} userEmail={email} />} />
           <Route path="/email" element={<EmailForm />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
-
-
         </Routes>
       </Router>
     </div>

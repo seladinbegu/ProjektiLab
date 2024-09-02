@@ -17,19 +17,21 @@ namespace InpositionLibrary.Mappers
                 Autori = libriModel.Autori,
                 Burimi = libriModel.Burimi,
                 Statusi = libriModel.Statusi,
-                Pika = libriModel.Pika
+                             BiblotekaId = libriModel.BiblotekaId // Make sure this field is set
+
 
                       };
         }
 
-          public static Libri toLibriFromCreateDto(this CreateLibriRequestDto libriDto){
+          public static Libri toLibriFromCreateDto(this LibriCreateDto libriDto){
             return new Libri
             {
                  Titulli = libriDto.Titulli,
                 Autori = libriDto.Autori,
                 Burimi = libriDto.Burimi,
                 Statusi = libriDto.Statusi,
-                Pika = libriDto.Pika
+             BiblotekaId = libriDto.BiblotekaId // Make sure this field is set
+
             };
     }
 }

@@ -1,156 +1,232 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Footer from './Footer';
+import api from './Api'; // Import your Axios instance
 
-const LibriCrud = () => {
-    const [libriList, setLibriList] = useState([]);
-    const [newLibri, setNewLibri] = useState({
+const LibriForm = () => {
+  const [libriData, setLibriData] = useState({
+    id: '',
+    titulli: '',
+    autori: '',
+    burimi: '',
+    statusi: '',
+    pika: ''
+  });
+  const [pikat, setPikat] = useState([]);
+  const [librat, setLibrat] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    fetchPikat();
+    fetchLibrat();
+  }, []);
+
+  const fetchPikat = async () => {
+    try {
+      const response = await api.get('/Bibloteka/pikat');
+      setPikat(response.data);
+    } catch (error) {
+      console.error('Error fetching pikat:', error);
+    }
+  };
+
+  const fetchLibrat = async () => {
+    try {
+      const response = await api.get('/Libri');
+      setLibrat(response.data);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.error('Unauthorized access - redirecting to login.');
+      } else {
+        console.error('Error fetching books:', error);
+      }
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setLibriData({ ...libriData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const method = isEditing ? 'put' : 'post';
+      const url = isEditing ? `/Libri/${libriData.id}` : '/Libri';
+    
+      const payload = {
+        titulli: libriData.titulli,
+        autori: libriData.autori,
+        burimi: libriData.burimi,
+        statusi: libriData.statusi,
+        biblotekaId: libriData.pika // Ensure this field matches your API schema
+      };
+    
+      await api[method](url, payload);
+      setLibriData({
+        id: '',
         titulli: '',
         autori: '',
         burimi: '',
         statusi: '',
         pika: ''
-    });
-    const [isEditing, setIsEditing] = useState(false);
-    const [editBookId, setEditBookId] = useState(null);
+      });
+      setIsEditing(false);
+      fetchLibrat(); // Refresh the list of books
+    } catch (error) {
+      console.error('Error creating/updating Libri:', error.response?.data || error.message);
+    }
+  };
 
-    useEffect(() => {
-        fetchLibri();
-    }, []);
+  const handleEdit = (libri) => {
+    setLibriData(libri);
+    setIsEditing(true);
+  };
 
-    const fetchLibri = async () => {
-        try {
-            const response = await axios.get('http://localhost:5132/api/Libri');
-            setLibriList(response.data);
-        } catch (error) {
-            console.error('Error fetching libri:', error);
-        }
-    };
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/Libri/${id}`);
+      fetchLibrat(); // Refresh the list of books after deletion
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.error('Unauthorized access - redirecting to login.');
+      } else {
+        console.error('Error deleting Libri:', error);
+      }
+    }
+  };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewLibri(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
+  const getPikaName = (id) => {
+    if (!id) {
+      return 'Unknown';
+    }
+    const pika = pikat.find(pika => pika.id === id);
+    return pika ? pika.pika : 'Unknown';
+  };
 
-    const handleCreate = async () => {
-        try {
-            await axios.post('http://localhost:5132/api/Libri', newLibri);
-            fetchLibri();
-            setNewLibri({
-                titulli: '',
-                autori: '',
-                burimi: '',
-                statusi: '',
-                pika: ''
-            });
-        } catch (error) {
-            console.error('Error creating libri:', error);
-        }
-    };
-
-    const handleUpdate = async (id, updatedData) => {
-        try {
-            await axios.put(`http://localhost:5132/api/Libri/${id}`, updatedData);
-            fetchLibri();
-            setIsEditing(false);
-            setEditBookId(null);
-            setNewLibri({
-                titulli: '',
-                autori: '',
-                burimi: '',
-                statusi: '',
-                pika: ''
-            });
-        } catch (error) {
-            console.error('Error updating libri:', error);
-        }
-    };
-
-    const handleEdit = (id, book) => {
-        setIsEditing(true);
-        setEditBookId(id);
-        setNewLibri(book);
-    };
-
-    const handleDelete = async (id) => {
-        try {
-            await axios.delete(`http://localhost:5132/api/Libri/${id}`);
-            fetchLibri();
-        } catch (error) {
-            console.error('Error deleting libri:', error);
-        }
-    };
-
-    const handleSetFree = async (id) => {
-        try {
-            await axios.put(`http://localhost:5132/api/Libri/${id}`, { ...libriList.find(libri => libri.id === id), statusi: 'I Lirë' });
-            fetchLibri();
-        } catch (error) {
-            console.error('Error setting book free:', error);
-        }
-    };
-
-    return (
-        <>
-            <div className="container mx-auto p-6 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 200px)' }}>
-                <h2 className="text-3xl font-bold mb-6">Libri CRUD</h2>
-                <div className="mb-8">
-                    <h3 className="text-2xl font-semibold mb-4">{isEditing ? 'Përmirëso Librin' : 'Shto Librin'}</h3>
-                    <div className="flex flex-wrap mb-4">
-                        <input type="text" name="titulli" placeholder="Titulli" value={newLibri.titulli} onChange={handleInputChange} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4 py-2 mb-2 mr-2 rounded border border-gray-300 focus:outline-none focus:border-blue-400" />
-                        <input type="text" name="autori" placeholder="Autori" value={newLibri.autori} onChange={handleInputChange} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4 py-2 mb-2 mr-2 rounded border border-gray-300 focus:outline-none focus:border-blue-400" />
-                        <input type="text" name="burimi" placeholder="Image URL" value={newLibri.burimi} onChange={handleInputChange} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4 py-2 mb-2 mr-2 rounded border border-gray-300 focus:outline-none focus:border-blue-400" />
-                        <select name="statusi" value={newLibri.statusi} onChange={handleInputChange} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4 py-2 mb-2 mr-2 rounded border border-gray-300 focus:outline-none focus:border-blue-400">
-                            <option value="">Statusi</option>
-                            <option value="I Lirë">I Lirë</option>
-                            <option value="I Zënë">I Zënë</option>
-                        </select>
-                        <select name="pika" value={newLibri.pika} onChange={handleInputChange} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-4 py-2 mb-2 mr-2 rounded border border-gray-300 focus:outline-none focus:border-blue-400">
-                            <option value="">Pika</option>
-                            <option value="Vushtrri">Vushtrri</option>
-                            <option value="Pejë">Pejë</option>
-                            <option value="Prizren">Prizren</option>
-                        </select>
-                    </div>
-                    <button onClick={isEditing ? () => handleUpdate(editBookId, newLibri) : handleCreate} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">{isEditing ? 'Përmirëso' : 'Shto'}</button>
-                </div>
-                <div>
-                    <h3 className="text-2xl font-semibold mb-4">Libri List</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {libriList.map(libri => (
-                            <div key={libri.id} className="bg-white border border-gray-300 rounded-lg p-6">
-                                <img src={libri.burimi} alt={libri.titulli} className="mb-4 max-h-full max-w-full" />
-                                <h4 className="text-xl font-semibold mb-2 text-blue-600">{libri.titulli}</h4>
-                                <p className="text-gray-700"><strong>Autori:</strong> {libri.autori}</p>
-                                <p className={`text-gray-700 ${libri.statusi === 'I Lirë' ? 'text-green-600' : libri.statusi === 'I Zënë' ? 'text-red-600' : ''}`}><strong>Statusi:</strong> {libri.statusi}</p>
-                                <p className="text-gray-700"><strong>Pika:</strong> {libri.pika}</p>
-                                <div className="flex justify-between items-center mt-4">
-                                    {isEditing && editBookId === libri.id ? (
-                                        <>
-                                            <button onClick={() => handleUpdate(libri.id, newLibri)} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:bg-green-600">Ruaj</button>
-                                            <button onClick={() => setIsEditing(false)} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Anulo</button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <button onClick={() => handleEdit(libri.id, libri)} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Përmirëso</button>
-                                            <button onClick={() => handleDelete(libri.id)} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600">Fshijë</button>
-                                            {libri.statusi === 'I Zënë' && (
-                                                <button onClick={() => handleSetFree(libri.id)} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:bg-green-600">Liro Librin</button>
-                                            )}
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+  return (
+    <div className="overflow-x-hidden overflow-y-auto mb-14">
+      <div className="container mx-auto mt-8 max-w-4xl mb-8 p-4 bg-white shadow-lg rounded-lg">
+        <h2 className="text-2xl font-bold mb-4">{isEditing ? 'Edit Libri' : 'Create Libri'}</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="titulli" className="block text-sm font-medium text-gray-700">Titulli:</label>
+              <input
+                type="text"
+                id="titulli"
+                name="titulli"
+                value={libriData.titulli}
+                onChange={handleInputChange}
+                className="border rounded-md p-2 w-full"
+              />
             </div>
-            <Footer />
-        </>
-    );
+            <div>
+              <label htmlFor="autori" className="block text-sm font-medium text-gray-700">Autori:</label>
+              <input
+                type="text"
+                id="autori"
+                name="autori"
+                value={libriData.autori}
+                onChange={handleInputChange}
+                className="border rounded-md p-2 w-full"
+              />
+            </div>
+            <div>
+              <label htmlFor="burimi" className="block text-sm font-medium text-gray-700">Burimi:</label>
+              <input
+                type="text"
+                id="burimi"
+                name="burimi"
+                value={libriData.burimi}
+                onChange={handleInputChange}
+                className="border rounded-md p-2 w-full"
+              />
+            </div>
+            <div>
+              <label htmlFor="statusi" className="block text-sm font-medium text-gray-700">Statusi:</label>
+              <select
+                id="statusi"
+                name="statusi"
+                value={libriData.statusi}
+                onChange={handleInputChange}
+                className="border rounded-md p-2 w-full bg-white text-gray-700"
+              >
+                <option value="I Lirë">I Lirë</option>
+                <option value="I Zënë">I Zënë</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="pika" className="block text-sm font-medium text-gray-700">Pika:</label>
+              <select
+                id="pika"
+                name="pika"
+                value={libriData.pika}
+                onChange={handleInputChange}
+                className="border rounded-md p-2 w-full"
+              >
+                <option value="">Select Pika</option>
+                {pikat.map((pika) => (
+                  <option key={pika.id} value={pika.id}>
+                    {pika.pika}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+          >
+            {isEditing ? 'Update' : 'Create'}
+          </button>
+        </form>
+
+        {/* Display the list of books */}
+        <div className="mt-8">
+          <h3 className="text-xl font-bold mb-4">Existing Books</h3>
+          <div className="flex flex-wrap gap-4">
+            {librat.map((liber) => (
+              <div key={liber.id} className="flex flex-col items-center border p-4 rounded-lg shadow-md bg-white w-72">
+                <div className="relative w-full h-48 mb-4">
+                  <img
+                    src={liber.burimi || 'default-image-url.png'}
+                    alt={liber.titulli || 'No Title'}
+                    className="w-full h-full object-cover rounded-md border-2 border-gray-300"
+                    onError={(e) => e.target.src = 'default-image-url.png'}
+                  />
+                </div>
+                <h4 className="text-lg font-semibold text-center mb-2">
+                  <span className="font-bold">{liber.titulli}</span>
+                </h4>
+                <p className="text-gray-700 text-center">
+                  Autori: <span className="font-bold">{liber.autori}</span>
+                </p>
+                <p className={`text-center font-semibold ${liber.statusi === 'I Lirë' ? 'text-green-500' : 'text-red-500'}`}>
+                  Statusi: {liber.statusi}
+                </p>
+                <p className="text-gray-700 text-center">
+                  Pika: {getPikaName(liber.biblotekaId)}
+                </p>
+                <div className="mt-4 flex space-x-2">
+                  <button
+                    onClick={() => handleEdit(liber)}
+                    className="bg-yellow-500 text-white py-1 px-3 rounded-md hover:bg-yellow-600"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(liber.id)}
+                    className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default LibriCrud;
+export default LibriForm;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import api from './Api';
+import Cookies from 'js-cookie'; // Import Cookies from js-cookie
 
 
 const Login = ({ onLogin }) => {
@@ -12,37 +13,32 @@ const Login = ({ onLogin }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:5132/api/account/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userName: username, password }),
-      });
-      const data = await response.json();
+      const response = await api.post('/Auth/login', { username, password });
+      const data = response.data;
       console.log('Server response:', data);
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
+
+      // Handle the login success
       console.log('Login successful');
-      const loggedInUsername = data.userName;
+      const loggedInUsername = username; // Assuming username is correct
       console.log('Logged in as:', loggedInUsername);
       onLogin(loggedInUsername, password);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('username', loggedInUsername);
+
+      // Save the token in cookies using js-cookie
+      Cookies.set('AuthToken', data.token);
+
       setPassword('');
       // Redirect to the home page after successful login
       navigate('/'); // Navigate to the home route
     } catch (error) {
-      console.error('Login failed:', error.message);
-      setError('Invalid username or password. Please check your credentials and try again.');
+      console.error('Kyqja dështoi:', error.response?.data?.message || error.message);
+      setError('Emri i përdoruesit ose fjalëkalimi është i pasaktë. Ju lutem kontrolloni të dhënat dhe provoni përsëri.');
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-center">Kyqu</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="username" className="block">Emri i Përdoruesit:</label>

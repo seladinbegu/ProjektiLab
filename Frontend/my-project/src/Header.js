@@ -7,7 +7,7 @@ import { faUser, faSignOutAlt, faBars } from '@fortawesome/free-solid-svg-icons'
 const Header = ({ isLoggedIn, username, onLogout }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isAdmin = username === 'seladinbegu';
+  const isAdmin = username === 'seladin';
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
