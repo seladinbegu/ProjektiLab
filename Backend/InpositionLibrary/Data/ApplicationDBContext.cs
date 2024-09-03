@@ -1,60 +1,43 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InpositionLibrary.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
+using InpositionLibrary.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace InpositionLibrary.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {
-        public ApplicationDbContext(DbContextOptions dbContextOptions)
-         : base(dbContextOptions)
-        {}
-            public DbSet<Bibloteka> Bibloteka{get; set;}
-            public DbSet<Punetori> Punetori { get; set; }
-             public DbSet<RefreshToken> RefreshToken { get; set; }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptions)
+            : base(dbContextOptions)
+        { }
 
-    public DbSet<Reservations> Reservations { get; set; }
-
-
-            public DbSet<Libri> Libri { get; set; }
-
-
-            public DbSet<User> User {get; set;}
-            // public DbSet<Reservation> Reservation{get; set;}
-            
-
-
-
-
-
-
+        public DbSet<Bibloteka> Bibloteka { get; set; }
+        public DbSet<Punetori> Punetori { get; set; }
+        public DbSet<RefreshToken> RefreshToken { get; set; }
+        public DbSet<Reservations> Reservations { get; set; }
+        public DbSet<Libri> Libri { get; set; }
+        public DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            List<IdentityRole> roles = new List<IdentityRole>
-            {
-                new IdentityRole
-                {
-                    Name = "Admin",
-                    NormalizedName = "ADMIN"
-                },
-                new IdentityRole
-                {
-                    Name = "User",
-                    NormalizedName = "USER"
-                }
-            };
-            builder.Entity<IdentityRole>().HasData(roles);
 
+            // Seed roles
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Name = "User", NormalizedName = "USER" }
+            );
+
+            // Configure relationships
+            builder.Entity<Reservations>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.Reservations)
+                .HasForeignKey(r => r.UserId);
+
+            builder.Entity<Reservations>()
+                .HasOne(r => r.Libri)
+                .WithMany(l => l.Reservations)
+                .HasForeignKey(r => r.LibriId);
         }
-
-
     }
 }

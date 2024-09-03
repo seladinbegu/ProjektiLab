@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InpositionLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240901202241_init8")]
-    partial class init8
+    [Migration("20240903191349_ReservationsManyToMany")]
+    partial class ReservationsManyToMany
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,10 +66,6 @@ namespace InpositionLibrary.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Burimi")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Pika")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -227,13 +223,13 @@ namespace InpositionLibrary.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "83ea467a-ea42-44f8-8359-621f6096fcf6",
+                            Id = "c7d20912-d88a-4599-8fdb-0a3f205baf3f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8e0d57a0-8692-48db-b8bd-0321f135ffe8",
+                            Id = "f8fe50e6-2a8c-47c7-be4e-cf58ba3b755c",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -345,6 +341,33 @@ namespace InpositionLibrary.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Reservations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("LibriId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LibriId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reservations");
+                });
+
             modelBuilder.Entity("InpositionLibrary.Models.Libri", b =>
                 {
                     b.HasOne("InpositionLibrary.Models.Bibloteka", "Bibloteka")
@@ -429,11 +452,40 @@ namespace InpositionLibrary.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Reservations", b =>
+                {
+                    b.HasOne("InpositionLibrary.Models.Libri", "Libri")
+                        .WithMany("Reservations")
+                        .HasForeignKey("LibriId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InpositionLibrary.Models.User", "User")
+                        .WithMany("Reservations")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Libri");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("InpositionLibrary.Models.Bibloteka", b =>
                 {
                     b.Navigation("Librat");
 
                     b.Navigation("Punetoret");
+                });
+
+            modelBuilder.Entity("InpositionLibrary.Models.Libri", b =>
+                {
+                    b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("InpositionLibrary.Models.User", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

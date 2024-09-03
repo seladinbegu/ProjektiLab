@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace InpositionLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class init1 : Migration
+    public partial class ReservationsManyToMany : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -172,6 +174,48 @@ namespace InpositionLibrary.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefreshToken",
+                columns: table => new
+                {
+                    Token = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshToken", x => x.Token);
+                    table.ForeignKey(
+                        name: "FK_RefreshToken_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Libri",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulli = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Autori = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Burimi = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Statusi = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BiblotekaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Libri", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Libri_Bibloteka_BiblotekaId",
+                        column: x => x.BiblotekaId,
+                        principalTable: "Bibloteka",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Punetori",
                 columns: table => new
                 {
@@ -179,7 +223,7 @@ namespace InpositionLibrary.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Emri = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Pozita = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BiblotekaId = table.Column<int>(type: "int", nullable: true)
+                    BiblotekaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -188,7 +232,44 @@ namespace InpositionLibrary.Migrations
                         name: "FK_Punetori_Bibloteka_BiblotekaId",
                         column: x => x.BiblotekaId,
                         principalTable: "Bibloteka",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LibriId = table.Column<int>(type: "int", nullable: false),
+                    ReservationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Libri_LibriId",
+                        column: x => x.LibriId,
+                        principalTable: "Libri",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "c7d20912-d88a-4599-8fdb-0a3f205baf3f", null, "Admin", "ADMIN" },
+                    { "f8fe50e6-2a8c-47c7-be4e-cf58ba3b755c", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -231,9 +312,29 @@ namespace InpositionLibrary.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Libri_BiblotekaId",
+                table: "Libri",
+                column: "BiblotekaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Punetori_BiblotekaId",
                 table: "Punetori",
                 column: "BiblotekaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshToken_UserId",
+                table: "RefreshToken",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_LibriId",
+                table: "Reservations",
+                column: "LibriId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_UserId",
+                table: "Reservations",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -258,10 +359,19 @@ namespace InpositionLibrary.Migrations
                 name: "Punetori");
 
             migrationBuilder.DropTable(
+                name: "RefreshToken");
+
+            migrationBuilder.DropTable(
+                name: "Reservations");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Libri");
 
             migrationBuilder.DropTable(
                 name: "Bibloteka");

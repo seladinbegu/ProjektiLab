@@ -1,106 +1,134 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InpositionLibrary.Data;
-using InpositionLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using InpositionLibrary.Data;
+using InpositionLibrary.DTOs.Reservations;
+using InpositionLibrary.Models;
+using Microsoft.AspNetCore.Authorization;
+using InpositionLibrary.Mappers;
 
 namespace InpositionLibrary.Controllers
 {
-    
-        [ApiController]
-[Route("api/[controller]")]
-public class ReservationsController : ControllerBase
-{
-    private readonly ApplicationDbContext _context;
-
-    public ReservationsController(ApplicationDbContext context)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ReservationController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    // GET: api/Reservations
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Reservations>>> GetReservations()
-    {
-        return await _context.Reservations
-            .Include(r => r.Libri)
-            .Include(r => r.User)
-            .ToListAsync();
-    }
-
-    // GET: api/Reservations/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Reservations>> GetReservation(int id)
-    {
-        var reservation = await _context.Reservations
-            .Include(r => r.Libri)
-            .Include(r => r.User)
-            .FirstOrDefaultAsync(r => r.LibriId == id && r.UserId == User.Identity.Name); // Assuming you're using the logged-in user's ID
-
-        if (reservation == null)
+        public ReservationController(ApplicationDbContext context)
         {
-            return NotFound();
+            _context = context;
         }
 
-        return reservation;
-    }
-
-     [HttpGet("GetUserByUsername")]
-        public async Task<ActionResult<User>> GetUserByUsername(string username)
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserName == username);
+            var reservations = await _context.Reservations
+                .Include(r => r.Libri) // Optional: Include related data if needed
+                .Include(r => r.User)
+                .ToListAsync();
 
-            if (user == null)
+            var reservationDtos = reservations.Select(s => s.toReservationsDto());
+            return Ok(reservationDtos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] ReservationsCreateDto reservationsDto)
+        {
+            if (reservationsDto == null)
+            {
+                return BadRequest("Invalid data.");
+            }
+
+            var reservationsModel = reservationsDto.toReservationsFromCreateDto();
+            _context.Reservations.Add(reservationsModel);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(Get), new { Id = reservationsModel.Id }, reservationsModel.toReservationsDto());
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] ReservationsUpdateDto updateDto)
+        {
+            var reservation = await _context.Reservations
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            if (reservation == null)
             {
                 return NotFound();
             }
 
-            return user;
+            reservation.UserId = updateDto.UserId;
+            reservation.LibriId = updateDto.LibriId;
+            reservation.ReservationDate = updateDto.ReservationDate;
+
+            await _context.SaveChangesAsync();
+            return Ok(reservation.toReservationsDto());
         }
 
-    // POST: api/Reservations
-    [HttpPost]
-    public async Task<ActionResult<Reservations>> PostReservation(Reservations reservation)
-    {
-        _context.Reservations.Add(reservation);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetReservation", new { id = reservation.LibriId }, reservation);
-    }
-
-    // DELETE: api/Reservations/5
-    [HttpDelete("{userId}/{libriId}")]
-    public async Task<IActionResult> DeleteReservation(string userId, int libriId)
-    {
-        var reservation = await _context.Reservations
-            .FirstOrDefaultAsync(r => r.UserId == userId && r.LibriId == libriId);
-
-        if (reservation == null)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            return NotFound();
+            var reservation = await _context.Reservations
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+
+            _context.Reservations.Remove(reservation);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
 
-        _context.Reservations.Remove(reservation);
-        await _context.SaveChangesAsync();
+        [HttpGet("HasRecentReservation/{userId}")]
+        public async Task<ActionResult<bool>> HasRecentReservation([FromRoute] string userId)
+        {
+            var oneMonthAgo = DateTime.Now.AddMonths(-1);
 
-        return NoContent();
+            var hasRecentReservation = await _context.Reservations
+                .AnyAsync(r => r.UserId == userId && r.ReservationDate >= oneMonthAgo);
+
+            return Ok(hasRecentReservation);
+        }
+
+        [HttpGet("GetByUserAndBook/{userId}/{libriId}")]
+        public async Task<ActionResult<ReservationsDto>> GetByUserAndBook([FromRoute] string userId, [FromRoute] int libriId)
+        {
+            var reservation = await _context.Reservations
+                .Where(r => r.UserId == userId && r.LibriId == libriId)
+                .FirstOrDefaultAsync();
+
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(reservation.toReservationsDto());
+        }
+
+        [HttpGet("GetByUsername")]
+        public async Task<IActionResult> GetByUsername([FromQuery] string username)
+        {
+           if (string.IsNullOrWhiteSpace(username))
+        {
+            return BadRequest("Username cannot be empty");
+        }
+
+        var user = await _context.Users
+            .Where(u => u.UserName == username)
+            .Select(u => new { id = u.Id })
+            .FirstOrDefaultAsync();
+
+        if (user == null)
+        {
+            return NotFound(new { message = "User not found" });
+        }
+
+        return Ok(user);
+        }
     }
-    [HttpGet("HasRecentReservation/{userId}")]
-    public async Task<ActionResult<bool>> HasRecentReservation(string userId)
-    {
-        var oneMonthAgo = DateTime.Now.AddMonths(-1);
-
-        var hasRecentReservation = await _context.Reservations
-            .AnyAsync(r => r.UserId == userId && r.ReservationDate >= oneMonthAgo);
-
-        return Ok(hasRecentReservation);
-    }
-    
-}
-
-    
 }

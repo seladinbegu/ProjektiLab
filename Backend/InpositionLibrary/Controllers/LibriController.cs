@@ -84,7 +84,16 @@ public IActionResult Update([FromRoute] int id, [FromBody] LibriUpdateDto update
 
 
 
-
+ [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var libri = _context.Libri.FirstOrDefault(b => b.Id == id);
+            if (libri == null)
+            {
+                return NotFound();
+            }
+            return Ok(libri.toLibriDto());
+        }
 
 
 

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InpositionLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -126,33 +126,6 @@ namespace InpositionLibrary.Migrations
                     b.ToTable("RefreshToken");
                 });
 
-            modelBuilder.Entity("InpositionLibrary.Models.Reservations", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("LibriId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ReservationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LibriId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reservations");
-                });
-
             modelBuilder.Entity("InpositionLibrary.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -247,13 +220,13 @@ namespace InpositionLibrary.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8c0203e7-e7b6-4301-99ec-b318a06cb55f",
+                            Id = "c7d20912-d88a-4599-8fdb-0a3f205baf3f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1e81d710-4c1c-4fd9-a187-ba45252efbe5",
+                            Id = "f8fe50e6-2a8c-47c7-be4e-cf58ba3b755c",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -365,6 +338,33 @@ namespace InpositionLibrary.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Reservations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("LibriId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LibriId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reservations");
+                });
+
             modelBuilder.Entity("InpositionLibrary.Models.Libri", b =>
                 {
                     b.HasOne("InpositionLibrary.Models.Bibloteka", "Bibloteka")
@@ -394,25 +394,6 @@ namespace InpositionLibrary.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("InpositionLibrary.Models.Reservations", b =>
-                {
-                    b.HasOne("InpositionLibrary.Models.Libri", "Libri")
-                        .WithMany("Reservations")
-                        .HasForeignKey("LibriId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InpositionLibrary.Models.User", "User")
-                        .WithMany("Reservations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Libri");
 
                     b.Navigation("User");
                 });
@@ -466,6 +447,25 @@ namespace InpositionLibrary.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Reservations", b =>
+                {
+                    b.HasOne("InpositionLibrary.Models.Libri", "Libri")
+                        .WithMany("Reservations")
+                        .HasForeignKey("LibriId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InpositionLibrary.Models.User", "User")
+                        .WithMany("Reservations")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Libri");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("InpositionLibrary.Models.Bibloteka", b =>

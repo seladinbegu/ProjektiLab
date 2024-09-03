@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import Home from './Home';
@@ -14,27 +14,32 @@ import EmailForm from './EmailForm';
 import AboutUs from './AboutUs';
 import ContactUs from './ContactUs';
 import Cookies from 'js-cookie';
-import { api, setupInterceptors } from './AxiosConfig'; // Import the configured Axios instance and setup function
+import { api, setupInterceptors } from './AxiosConfig';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUsername('');
-    setEmail('');
-
-    // Clear cookies
-    Cookies.remove('accessToken');
-    Cookies.remove('refreshToken');
-    Cookies.remove('username');
-    Cookies.remove('email');
-  };
+  const fetchUserId = useCallback(async () => {
+    if (username) {
+      try {
+        const response = await api.get(`/api/Reservation/GetByUsername?username=${username}`);
+        if (response.data && response.data.id) {
+          setUserId(response.data.id);
+        } else {
+          console.error('User ID not found');
+        }
+      } catch (error) {
+        console.error('Error fetching user ID:', error);
+      }
+    }
+  }, [username]);
 
   useEffect(() => {
-    setupInterceptors(handleLogout); // Setup interceptors with handleLogout
+    setupInterceptors(handleLogout);
 
     const storedUsername = Cookies.get('username');
     const storedEmail = Cookies.get('email');
@@ -43,40 +48,49 @@ export default function App() {
       setUsername(storedUsername);
       setEmail(storedEmail);
     }
-  }, []);
+
+    fetchUserId().finally(() => setLoading(false));
+  }, [fetchUserId]);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUsername('');
+    setEmail('');
+    setUserId(null);
+
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
+    Cookies.remove('username');
+    Cookies.remove('email');
+  };
 
   const handleLogin = async (username, password) => {
     try {
-      console.log('Attempting login with username:', username);
-      const response = await api.post('/api/Auth/login', {
-        username,
-        password,
-    });
-    
-  
-      console.log('Received response:', response);
+      const response = await api.post('/api/Auth/login', { username, password });
+
       if (response.status === 200) {
         const { accessToken, refreshToken, userName, email } = response.data;
-  
-        // Set cookies
+
         Cookies.set('accessToken', accessToken, { expires: 1 });
         Cookies.set('refreshToken', refreshToken, { expires: 7 });
         Cookies.set('username', userName);
         Cookies.set('email', email);
-  
-        console.log('Logged in as:', userName, 'with email:', email);
+
         setIsLoggedIn(true);
         setUsername(userName);
         setEmail(email);
+        fetchUserId();
       } else {
-        console.log('Login failed with status:', response.status);
         throw new Error('Login failed');
       }
     } catch (error) {
       console.error('Error logging in:', error.message);
     }
   };
-  
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -91,7 +105,7 @@ export default function App() {
           <Route path="/libri" element={<Libri />} />
           <Route path="/lexuesi" element={<Lexuesi />} />
           <Route path="/main" element={<Main />} />
-          <Route path="/librireservation" element={<LibriReservation loggedInUsername={username} userEmail={email} />} />
+          <Route path="/librireservation" element={<LibriReservation username={username} userId={userId} email={email} />} />
           <Route path="/email" element={<EmailForm />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
