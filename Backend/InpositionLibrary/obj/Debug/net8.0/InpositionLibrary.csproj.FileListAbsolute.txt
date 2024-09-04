@@ -433,6 +433,7 @@ C:\Users\begus\OneDrive\Desktop\ProjektiLab\Backend\InpositionLibrary\bin\Debug\
 C:\Users\begus\OneDrive\Desktop\ProjektiLab\Backend\InpositionLibrary\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\begus\OneDrive\Desktop\ProjektiLab\Backend\InpositionLibrary\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\begus\OneDrive\Desktop\ProjektiLab\Backend\InpositionLibrary\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\begus\OneDrive\Desktop\ProjektiLab\Backend\InpositionLibrary\bin\Debug\net8.0\CsvHelper.dll
 C:\Users\begus\OneDrive\Desktop\ProjektiLab\Backend\InpositionLibrary\bin\Debug\net8.0\Humanizer.dll
 C:\Users\begus\OneDrive\Desktop\ProjektiLab\Backend\InpositionLibrary\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\begus\OneDrive\Desktop\ProjektiLab\Backend\InpositionLibrary\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

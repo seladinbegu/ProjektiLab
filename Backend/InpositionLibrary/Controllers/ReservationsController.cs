@@ -8,6 +8,9 @@ using InpositionLibrary.DTOs.Reservations;
 using InpositionLibrary.Models;
 using Microsoft.AspNetCore.Authorization;
 using InpositionLibrary.Mappers;
+using CsvHelper;
+using System.Text;
+using System.Globalization;
 
 namespace InpositionLibrary.Controllers
 {
@@ -33,20 +36,57 @@ namespace InpositionLibrary.Controllers
             var reservationDtos = reservations.Select(s => s.toReservationsDto());
             return Ok(reservationDtos);
         }
+       [HttpGet("DownloadReservations")]
+               [Authorize(Roles = "Admin")]
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ReservationsCreateDto reservationsDto)
-        {
-            if (reservationsDto == null)
-            {
-                return BadRequest("Invalid data.");
-            }
+public async Task<IActionResult> DownloadReservations()
+{
+    var reservations = await _context.Reservations
+        .Include(r => r.Libri)
+        .Include(r => r.User)
+        .ToListAsync();
 
-            var reservationsModel = reservationsDto.toReservationsFromCreateDto();
-            _context.Reservations.Add(reservationsModel);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { Id = reservationsModel.Id }, reservationsModel.toReservationsDto());
-        }
+    var reservationDtos = reservations.Select(s => s.toReservationsDto()).ToList();
+
+    // Return JSON data
+    return Ok(reservationDtos);
+}
+
+
+     [HttpPost]
+public async Task<IActionResult> Create([FromBody] ReservationsCreateDto reservationsDto)
+{
+    if (reservationsDto == null)
+    {
+        return BadRequest("Invalid data.");
+    }
+
+    var reservationsModel = reservationsDto.toReservationsFromCreateDto();
+
+    // Fetch the book (Libri) to update its status
+    var libri = await _context.Libri.FirstOrDefaultAsync(l => l.Id == reservationsModel.LibriId);
+    if (libri == null)
+    {
+        return NotFound("Libri not found.");
+    }
+
+    // Check if the book is already reserved
+    if (libri.Statusi == "I Zënë")
+    {
+        return BadRequest("Libri is already reserved.");
+    }
+
+    // Update the book status to "I Zënë"
+    libri.Statusi = "I Zënë";
+    _context.Libri.Update(libri);
+
+    // Add the reservation
+    _context.Reservations.Add(reservationsModel);
+    await _context.SaveChangesAsync();
+
+    return CreatedAtAction(nameof(Get), new { Id = reservationsModel.Id }, reservationsModel.toReservationsDto());
+}
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] ReservationsUpdateDto updateDto)
@@ -130,5 +170,18 @@ namespace InpositionLibrary.Controllers
 
         return Ok(user);
         }
+        [HttpGet("GetByUserId/{userId}")]
+public async Task<IActionResult> GetByUserId(string userId)
+{
+    var user = await _context.Users.FindAsync(userId);
+    if (user == null)
+    {
+        return NotFound();
+    }
+
+    return Ok(new { user.UserName }); // Return only the username
+}
+
+
     }
 }

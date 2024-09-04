@@ -44,25 +44,22 @@ namespace InpositionLibrary.Controllers
 
 
 
-    [HttpPost]
+ [HttpPost]
 [Authorize(Roles = "Admin")]
 public IActionResult Create([FromBody] LibriCreateDto libriDto)
 {
-    if (libriDto == null)
-    {
-        return BadRequest("Invalid data.");
-    }
-
+    // Directly map and save the new book
     var libriModel = libriDto.toLibriFromCreateDto();
     _context.Libri.Add(libriModel);
     _context.SaveChanges();
-    return CreatedAtAction(nameof(Get), new { Id = libriModel.Id }, libriModel.toLibriDto());
+
+    // Return the created book's data with a 201 Created status
+    return CreatedAtAction(nameof(GetById), new { id = libriModel.Id }, libriModel.toLibriDto());
 }
 
 
 
-[HttpPut]
-[Route("{id}")]
+[HttpPut("{id}")]
 public IActionResult Update([FromRoute] int id, [FromBody] LibriUpdateDto updateDto)
 {
     var libriModel = _context.Libri.FirstOrDefault(b => b.Id == id);
@@ -74,9 +71,25 @@ public IActionResult Update([FromRoute] int id, [FromBody] LibriUpdateDto update
     libriModel.Titulli = updateDto.Titulli;
     libriModel.Autori = updateDto.Autori;
     libriModel.Burimi = updateDto.Burimi;
-
-    // Update the status to the new status provided in the request
     libriModel.Statusi = updateDto.Statusi;
+    libriModel.BiblotekaId = updateDto.BiblotekaId; // Ensure this is updated
+
+    _context.SaveChanges();
+    return Ok(libriModel.toLibriDto());
+}
+
+[HttpPost("{id}/liro")]
+[Authorize(Roles = "Admin")]
+public IActionResult LiroBook(int id)
+{
+    var libriModel = _context.Libri.FirstOrDefault(b => b.Id == id);
+    if (libriModel == null)
+    {
+        return NotFound();
+    }
+
+    // Update the status to "I Lirë"
+    libriModel.Statusi = "I Lirë";
 
     _context.SaveChanges();
     return Ok(libriModel.toLibriDto());

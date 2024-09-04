@@ -76,7 +76,9 @@ const Header = ({ isLoggedIn, username, onLogout }) => {
  <option value="/lexuesi" className="text-black bg-white">Lista e Lexuesve</option>
  <option value="/libri" className="text-black bg-white">Lista e Librave</option>
  <option value="/bibloteka" className="text-black bg-white">Lista e Pikave</option>
- <option value="/punetori" className="text-black bg-white">Lista e Punëtorëve</option>
+ {/* <option value="/punetori" className="text-black bg-white">Lista e Punëtorëve</option> */}
+ <option value="/downloadreservations" className="text-black bg-white">Lista e Rezervimeve</option>
+
 </select>
 </div>
 )}

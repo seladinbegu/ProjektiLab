@@ -7,6 +7,8 @@ namespace InpositionLibrary.DTOs.Libri
 {
     public class LibriUpdateDto
     {
+                public int Id { get; set; }
+
         public string Titulli { get; set; }  = string.Empty;
 public string Autori { get; set; } = string.Empty;
 public string Burimi { get; set; } = string.Empty;

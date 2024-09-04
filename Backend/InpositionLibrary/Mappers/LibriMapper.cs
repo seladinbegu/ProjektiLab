@@ -17,7 +17,7 @@ namespace InpositionLibrary.Mappers
                 Autori = libriModel.Autori,
                 Burimi = libriModel.Burimi,
                 Statusi = libriModel.Statusi,
-                             BiblotekaId = libriModel.BiblotekaId // Make sure this field is set
+              BiblotekaId = libriModel.BiblotekaId // Make sure this field is set
 
 
                       };
@@ -33,6 +33,20 @@ namespace InpositionLibrary.Mappers
              BiblotekaId = libriDto.BiblotekaId // Make sure this field is set
 
             };
+            
+    }
+       public static Libri ToLibriFromUpdateDto(this LibriUpdateDto libriUpdateDto)
+    {
+        if (libriUpdateDto == null) throw new ArgumentNullException(nameof(libriUpdateDto));
+
+        return new Libri
+        {
+            Titulli = libriUpdateDto.Titulli,
+            Autori = libriUpdateDto.Autori,
+            Burimi = libriUpdateDto.Burimi,
+            Statusi = libriUpdateDto.Statusi,
+            BiblotekaId = libriUpdateDto.BiblotekaId
+        };
     }
 }
 }

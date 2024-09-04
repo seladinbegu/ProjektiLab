@@ -4,6 +4,7 @@ using InpositionLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InpositionLibrary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240904141213_user")]
+    partial class user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,13 +223,13 @@ namespace InpositionLibrary.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "baa113b6-7801-4e6a-8937-0a782e53595f",
+                            Id = "5d407922-ca34-4e7f-b3d7-a0d7cc933e90",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ab4171dd-a5e7-4c91-b7e6-e454f27c726a",
+                            Id = "26f8012b-46e9-44a0-ba71-e5728eae20dd",
                             Name = "User",
                             NormalizedName = "USER"
                         });

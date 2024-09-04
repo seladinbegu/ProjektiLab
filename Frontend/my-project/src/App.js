@@ -10,11 +10,11 @@ import Libri from './Libri';
 import Lexuesi from './Lexuesi';
 import Main from './Main';
 import LibriReservation from './LibriReservation';
-import EmailForm from './EmailForm';
 import AboutUs from './AboutUs';
 import ContactUs from './ContactUs';
 import Cookies from 'js-cookie';
 import { api, setupInterceptors } from './AxiosConfig';
+import DownloadReservations from './DownloadReservations';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -106,9 +106,12 @@ export default function App() {
           <Route path="/lexuesi" element={<Lexuesi />} />
           <Route path="/main" element={<Main />} />
           <Route path="/librireservation" element={<LibriReservation username={username} userId={userId} email={email} />} />
-          <Route path="/email" element={<EmailForm />} />
+          {/* <Route path="/email" element={<EmailForm />} /> */}
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/downloadreservations" element={<DownloadReservations />} />
+
+
         </Routes>
       </Router>
     </div>

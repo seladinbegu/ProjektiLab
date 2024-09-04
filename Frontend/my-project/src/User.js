@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Cookies from 'js-cookie';
 import api from './Api'; // Import your Axios instance
 
@@ -7,6 +8,8 @@ const UsersCrud = () => {
 
     useEffect(() => {
         fetchUsers();
+        console.log('AuthToken:', Cookies.get('AuthToken'));
+
     }, []);
 
     const fetchUsers = async () => {

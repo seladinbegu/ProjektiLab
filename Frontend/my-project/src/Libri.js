@@ -7,8 +7,8 @@ const LibriForm = () => {
     titulli: '',
     autori: '',
     burimi: '',
-    statusi: '',
-    pika: ''
+    statusi: 'I Lirë',
+    biblotekaId: ''
   });
   const [pikat, setPikat] = useState([]);
   const [librat, setLibrat] = useState([]);
@@ -48,36 +48,54 @@ const LibriForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     try {
-      const method = isEditing ? 'put' : 'post';
-      const url = isEditing ? `/Libri/${libriData.id}` : '/Libri';
-    
+      const url = isEditing ? `/Libri/${libriData.id}` : '/Libri'; // Remove /api if baseURL is already set
+  
       const payload = {
         titulli: libriData.titulli,
         autori: libriData.autori,
         burimi: libriData.burimi,
         statusi: libriData.statusi,
-        biblotekaId: libriData.pika // Ensure this field matches your API schema
+        biblotekaId: parseInt(libriData.biblotekaId, 10) // Ensure it's an integer
       };
-    
-      await api[method](url, payload);
+  
+      console.log('Submitting payload:', payload);
+  
+      let response;
+      if (isEditing) {
+        response = await api.put(url, payload); // Use PUT for editing
+      } else {
+        response = await api.post(url, payload); // Use POST for creating
+      }
+  
+      console.log('Update response:', response.data);
+  
       setLibriData({
         id: '',
         titulli: '',
         autori: '',
         burimi: '',
-        statusi: '',
-        pika: ''
+        statusi: 'I Lirë',
+        biblotekaId: ''
       });
       setIsEditing(false);
       fetchLibrat(); // Refresh the list of books
     } catch (error) {
-      console.error('Error creating/updating Libri:', error.response?.data || error.message);
+      console.error('Error creating/updating Libri:', error.response ? error.response.data : error.message);
+      alert(`Error: ${error.response ? error.response.data.title : error.message}`);
     }
   };
 
   const handleEdit = (libri) => {
-    setLibriData(libri);
+    setLibriData({
+      id: libri.id,
+      titulli: libri.titulli,
+      autori: libri.autori,
+      burimi: libri.burimi,
+      statusi: libri.statusi,
+      biblotekaId: libri.biblotekaId // Set the correct value for biblotekaId
+    });
     setIsEditing(true);
   };
 
@@ -94,6 +112,16 @@ const LibriForm = () => {
     }
   };
 
+  const handleLiro = async (id) => {
+    try {
+      await api.post(`/Libri/${id}/liro`);
+      // Refresh the list of books after marking as available
+      fetchLibrat();
+    } catch (error) {
+      console.error("Error marking book as available:", error);
+    }
+  };
+
   const getPikaName = (id) => {
     if (!id) {
       return 'Unknown';
@@ -103,8 +131,9 @@ const LibriForm = () => {
   };
 
   return (
-    <div className="overflow-x-hidden overflow-y-auto mb-14">
-      <div className="container mx-auto mt-8 max-w-4xl mb-8 p-4 bg-white shadow-lg rounded-lg">
+    
+      <div className="flex flex-col min-h-screen p-4 bg-gray-100">
+        <div className="container mx-auto mt-8 max-w-4xl mb-8 p-4 bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold mb-4">{isEditing ? 'Edit Libri' : 'Create Libri'}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -116,7 +145,7 @@ const LibriForm = () => {
                 name="titulli"
                 value={libriData.titulli}
                 onChange={handleInputChange}
-                className="border rounded-md p-2 w-full"
+                className="border border-gray-300 rounded-md p-2 w-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -127,7 +156,7 @@ const LibriForm = () => {
                 name="autori"
                 value={libriData.autori}
                 onChange={handleInputChange}
-                className="border rounded-md p-2 w-full"
+                className="border border-gray-300 rounded-md p-2 w-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -138,7 +167,7 @@ const LibriForm = () => {
                 name="burimi"
                 value={libriData.burimi}
                 onChange={handleInputChange}
-                className="border rounded-md p-2 w-full"
+                className="border border-gray-300 rounded-md p-2 w-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -148,7 +177,7 @@ const LibriForm = () => {
                 name="statusi"
                 value={libriData.statusi}
                 onChange={handleInputChange}
-                className="border rounded-md p-2 w-full bg-white text-gray-700"
+                className="border border-gray-300 rounded-md p-2 w-full bg-white shadow-sm focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="I Lirë">I Lirë</option>
                 <option value="I Zënë">I Zënë</option>
@@ -158,10 +187,10 @@ const LibriForm = () => {
               <label htmlFor="pika" className="block text-sm font-medium text-gray-700">Pika:</label>
               <select
                 id="pika"
-                name="pika"
-                value={libriData.pika}
+                name="biblotekaId"
+                value={libriData.biblotekaId}
                 onChange={handleInputChange}
-                className="border rounded-md p-2 w-full"
+                className="border border-gray-300 rounded-md p-2 w-full bg-white shadow-sm focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Select Pika</option>
                 {pikat.map((pika) => (
@@ -174,7 +203,7 @@ const LibriForm = () => {
           </div>
           <button
             type="submit"
-            className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+            className="mt-4 bg-blue-600 text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
           >
             {isEditing ? 'Update' : 'Create'}
           </button>
@@ -185,7 +214,7 @@ const LibriForm = () => {
           <h3 className="text-xl font-bold mb-4">Existing Books</h3>
           <div className="flex flex-wrap gap-4">
             {librat.map((liber) => (
-              <div key={liber.id} className="flex flex-col items-center border p-4 rounded-lg shadow-md bg-white w-72">
+              <div key={liber.id} className="flex flex-col items-center border border-gray-300 p-4 rounded-lg shadow-md bg-white w-72">
                 <div className="relative w-full h-48 mb-4">
                   <img
                     src={liber.burimi || 'default-image-url.png'}
@@ -194,31 +223,40 @@ const LibriForm = () => {
                     onError={(e) => e.target.src = 'default-image-url.png'}
                   />
                 </div>
-                <h4 className="text-lg font-semibold text-center mb-2">
-                  <span className="font-bold">{liber.titulli}</span>
+                <h4 className="text-lg font-semibold text-center mb-2 text-gray-900 font-extrabold shadow-md shadow-blue-500/50 bg-gradient-to-r from-blue-100 to-blue-200 p-2 rounded-lg">
+                  {liber.titulli}
                 </h4>
-                <p className="text-gray-700 text-center">
-                  Autori: <span className="font-bold">{liber.autori}</span>
+                <p className="text-gray-500 text-center">
+                  Autori: {liber.autori}
                 </p>
-                <p className={`text-center font-semibold ${liber.statusi === 'I Lirë' ? 'text-green-500' : 'text-red-500'}`}>
-                  Statusi: {liber.statusi}
+                
+                <p className="text-center">
+                  Statusi: <span className={`font-bold ${liber.statusi === 'I Lirë' ? 'text-green-500' : 'text-red-500'}`}>{liber.statusi}</span>
                 </p>
-                <p className="text-gray-700 text-center">
-                  Pika: {getPikaName(liber.biblotekaId)}
+                <p className="text-center mt-2">
+                  Pika: <span className="font-bold">{getPikaName(liber.biblotekaId)}</span>
                 </p>
-                <div className="mt-4 flex space-x-2">
+                <div className="flex gap-2 mt-4">
                   <button
                     onClick={() => handleEdit(liber)}
-                    className="bg-yellow-500 text-white py-1 px-3 rounded-md hover:bg-yellow-600"
+                    className="bg-yellow-500 text-white py-1 px-4 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 ease-in-out"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(liber.id)}
-                    className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600"
+                    className="bg-red-500 text-white py-1 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-300 ease-in-out"
                   >
                     Delete
                   </button>
+                  {liber.statusi === 'I Zënë' && (
+                    <button
+                      onClick={() => handleLiro(liber.id)}
+                      className="bg-green-500 text-white py-1 px-4 rounded-lg shadow-md hover:bg-green-600 transition duration-300 ease-in-out"
+                    >
+                      Liro
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
