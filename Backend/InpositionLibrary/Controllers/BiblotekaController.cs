@@ -107,6 +107,7 @@ public async Task<ActionResult<string>> GetPikaById([FromRoute] int id)
         }
 
         [HttpGet("pikat")]
+            [AllowAnonymous]
         public async Task<IActionResult> GetPikat()
         {
             var pikat = await _context.Bibloteka

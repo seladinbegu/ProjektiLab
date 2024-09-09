@@ -1,3 +1,4 @@
+// src/App.js
 import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './Header';
@@ -15,6 +16,7 @@ import ContactUs from './ContactUs';
 import Cookies from 'js-cookie';
 import { api, setupInterceptors } from './AxiosConfig';
 import DownloadReservations from './DownloadReservations';
+import CookieConsent from './CookieConsent'; // Import the CookieConsent component
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -96,6 +98,7 @@ export default function App() {
     <div>
       <Router>
         <Header isLoggedIn={isLoggedIn} username={username} onLogout={handleLogout} />
+        <CookieConsent /> {/* Render the CookieConsent component */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LogIn onLogin={handleLogin} />} />
@@ -106,12 +109,9 @@ export default function App() {
           <Route path="/lexuesi" element={<Lexuesi />} />
           <Route path="/main" element={<Main />} />
           <Route path="/librireservation" element={<LibriReservation username={username} userId={userId} email={email} />} />
-          {/* <Route path="/email" element={<EmailForm />} /> */}
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/downloadreservations" element={<DownloadReservations />} />
-
-
         </Routes>
       </Router>
     </div>

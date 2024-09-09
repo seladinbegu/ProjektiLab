@@ -134,7 +134,7 @@ const LibriForm = () => {
     
       <div className="flex flex-col min-h-screen p-4 bg-gray-100">
         <div className="container mx-auto mt-8 max-w-4xl mb-8 p-4 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold mb-4">{isEditing ? 'Edit Libri' : 'Create Libri'}</h2>
+        <h2 className="text-2xl font-bold mb-4">{isEditing ? 'Përmirëso Librin' : 'Krijo Librin'}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -205,23 +205,23 @@ const LibriForm = () => {
             type="submit"
             className="mt-4 bg-blue-600 text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out"
           >
-            {isEditing ? 'Update' : 'Create'}
+            {isEditing ? 'Përmirëso' : 'Krijo'}
           </button>
         </form>
 
         {/* Display the list of books */}
-        <div className="mt-8">
-          <h3 className="text-xl font-bold mb-4">Existing Books</h3>
+<div className="container mx-auto mt-8 max-w-7xl mb-8 p-4 bg-white shadow-lg rounded-lg">
+          <h3 className="text-xl font-bold mb-4"> Librat</h3>
           <div className="flex flex-wrap gap-4">
             {librat.map((liber) => (
               <div key={liber.id} className="flex flex-col items-center border border-gray-300 p-4 rounded-lg shadow-md bg-white w-72">
                 <div className="relative w-full h-48 mb-4">
-                  <img
-                    src={liber.burimi || 'default-image-url.png'}
-                    alt={liber.titulli || 'No Title'}
-                    className="w-full h-full object-cover rounded-md border-2 border-gray-300"
-                    onError={(e) => e.target.src = 'default-image-url.png'}
-                  />
+                <img
+  src={liber.burimi || 'default-image-url.png'}
+  alt={liber.titulli || 'Nuk ka Titull'}
+  className="w-1/2 mx-auto object-cover rounded-md border-2 border-gray-300"
+  onError={(e) => e.target.src = 'default-image-url.png'}
+/>
                 </div>
                 <h4 className="text-lg font-semibold text-center mb-2 text-gray-900 font-extrabold shadow-md shadow-blue-500/50 bg-gradient-to-r from-blue-100 to-blue-200 p-2 rounded-lg">
                   {liber.titulli}
@@ -241,13 +241,13 @@ const LibriForm = () => {
                     onClick={() => handleEdit(liber)}
                     className="bg-yellow-500 text-white py-1 px-4 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 ease-in-out"
                   >
-                    Edit
+                    Përmirëso
                   </button>
                   <button
                     onClick={() => handleDelete(liber.id)}
                     className="bg-red-500 text-white py-1 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-300 ease-in-out"
                   >
-                    Delete
+                    Fshijë
                   </button>
                   {liber.statusi === 'I Zënë' && (
                     <button

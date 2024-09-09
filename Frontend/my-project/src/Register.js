@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from './Api';
+import Footer from './Footer';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/Auth/registermodel', formData); // Use api instance
+      const response = await api.post('/Auth/register', formData); // Use api instance
       if (response.status === 200) {
         alert('Regjistrimi u krye me sukses! Mirë se vini.');
         setError('');
@@ -39,6 +40,7 @@ const Register = () => {
   };
 
   return (
+    <>
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4 text-center">Regjistrohu</h2>
@@ -92,6 +94,8 @@ const Register = () => {
         </div>
       </div>
     </div>
+    <Footer></Footer>
+    </>
   );
 };
 
