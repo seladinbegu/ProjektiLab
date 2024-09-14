@@ -44,7 +44,7 @@ using Microsoft.AspNetCore.Authorization; // Update with your actual namespace
                 return NotFound(); // Return 404 if user is not found
             }
 
-            return Ok(user);
+            return Ok(user.UserName);
         }
         catch (Exception ex)
         {

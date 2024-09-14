@@ -108,6 +108,21 @@ public IActionResult LiroBook(int id)
             return Ok(libri.toLibriDto());
         }
 
+       [HttpGet("GetTitulliById/{id}")]
+public IActionResult GetTitulliById(int id)
+{
+    // Find the Libri by its Id and select only the Titulli
+    var libri = _context.Libri.FirstOrDefault(l => l.Id == id);
+
+    if (libri == null)
+    {
+        return NotFound($"Libri with Id {id} not found.");
+    }
+
+    return Ok(libri.Titulli); // Return only the Titulli
+}
+
+
 
 
 

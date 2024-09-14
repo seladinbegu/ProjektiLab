@@ -144,6 +144,7 @@ const LibriReservation = ({ username, userId, email }) => {
   }
 
   return (
+    <>
     <div className="overflow-x-hidden overflow-y-auto mb-14">
       <div className="container mx-auto mt-8 max-w-7xl mb-8 p-4 bg-white shadow-lg rounded-lg">
         {hasRecentReservation && (
@@ -207,8 +208,10 @@ const LibriReservation = ({ username, userId, email }) => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
+          <Footer />
+
+    </>
   );
   
 };
