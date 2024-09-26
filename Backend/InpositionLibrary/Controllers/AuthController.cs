@@ -53,82 +53,82 @@ namespace InpositionLibrary.Controllers
         }
 
         [HttpPost("login")]
-public async Task<IActionResult> Login([FromBody] LoginModel model)
-{
-    if (!ModelState.IsValid)
-        return BadRequest(ModelState);
-
-    var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, lockoutOnFailure: false);
-
-    if (result.Succeeded)
-    {
-        var user = await _userManager.FindByNameAsync(model.Username);
-
-        // Assign roles based on the username
-        if (model.Username.Equals("seladin", StringComparison.OrdinalIgnoreCase))
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            // Assign the "admin" role if not already assigned
-            if (!await _userManager.IsInRoleAsync(user, "Admin"))
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, lockoutOnFailure: false);
+
+            if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, "Admin");
+                var user = await _userManager.FindByNameAsync(model.Username);
+
+                // Assign roles based on the username
+                if (model.Username.Equals("seladin", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Assign the "admin" role if not already assigned
+                    if (!await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                    }
+                }
+                else
+                {
+                    // Assign the "user" role if not already assigned
+                    if (!await _userManager.IsInRoleAsync(user, "User"))
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
+                }
+
+                var token = await GenerateJwtToken(user);
+
+                // Set the token in the response body for client-side handling
+                return Ok(new
+                {
+                    accessToken = token,
+                    refreshToken = "dummyRefreshToken", // Replace with actual refresh token logic
+                    userName = user.UserName,
+                    email = user.Email
+                });
             }
-        }
-        else
-        {
-            // Assign the "user" role if not already assigned
-            if (!await _userManager.IsInRoleAsync(user, "User"))
-            {
-                await _userManager.AddToRoleAsync(user, "User");
-            }
+
+            return Unauthorized(new { Message = "Invalid login attempt." });
         }
 
-        var token = await GenerateJwtToken(user);
 
-        // Set the token in the response body for client-side handling
-        return Ok(new
+        private async Task<string> GenerateJwtToken(User user)
         {
-            accessToken = token,
-            refreshToken = "dummyRefreshToken", // Replace with actual refresh token logic
-            userName = user.UserName,
-            email = user.Email
-        });
-    }
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_configuration["JWT:SigninKey"]);
 
-    return Unauthorized(new { Message = "Invalid login attempt." });
-}
-
-
-      private async Task<string> GenerateJwtToken(User user)
-{
-    var tokenHandler = new JwtSecurityTokenHandler();
-    var key = Encoding.UTF8.GetBytes(_configuration["JWT:SigninKey"]);
-
-    var claims = new List<Claim>
+            var claims = new List<Claim>
     {
         new Claim(ClaimTypes.Name, user.UserName),
         new Claim(ClaimTypes.NameIdentifier, user.Id),
         new Claim(ClaimTypes.Email, user.Email) // Include email claim
     };
 
-    // Retrieve roles for the user and add them to claims
-    var roles = await _userManager.GetRolesAsync(user);
-    foreach (var role in roles)
-    {
-        claims.Add(new Claim(ClaimTypes.Role, role));
-    }
+            // Retrieve roles for the user and add them to claims
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
-    var tokenDescriptor = new SecurityTokenDescriptor
-    {
-        Subject = new ClaimsIdentity(claims),
-        Expires = DateTime.UtcNow.AddHours(1), // Adjust as necessary
-        Audience = _configuration["JWT:Audience"], // Set the audience claim
-        Issuer = _configuration["JWT:Issuer"], // Set the issuer claim
-        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-    };
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(1), // Adjust as necessary
+                Audience = _configuration["JWT:Audience"], // Set the audience claim
+                Issuer = _configuration["JWT:Issuer"], // Set the issuer claim
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
 
-    var token = tokenHandler.CreateToken(tokenDescriptor);
-    return tokenHandler.WriteToken(token);
-}
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
 
     }
 }

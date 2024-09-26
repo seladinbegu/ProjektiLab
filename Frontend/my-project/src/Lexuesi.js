@@ -48,12 +48,19 @@ const UsersCrud = () => {
                             <p className="text-gray-700"><strong>Email:</strong> {user.email}</p>
                         </div>
                         <div className="flex items-center">
-                            <button
-                                onClick={() => handleDelete(user.id)}
-                                className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
-                            >
-                                Delete
-                            </button>
+                        <div className="flex items-center">
+    {user.userName === 'seladin' ? (
+        <span className="text-red-500 font-bold">ADMIN</span>
+    ) : (
+        <button
+            onClick={() => handleDelete(user.id)}
+            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
+        >
+            Delete
+        </button>
+    )}
+</div>
+
                         </div>
                     </li>
                 ))}

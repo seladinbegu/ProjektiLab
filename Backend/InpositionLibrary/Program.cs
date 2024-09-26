@@ -56,7 +56,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 // Configure Identity
-builder.Services.AddIdentity<User, IdentityRole>(options => {
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
     // Set the minimum length requirement for passwords
     options.Password.RequiredLength = 8;
     // Disable other password complexity requirements
@@ -79,19 +80,22 @@ builder.Services.AddAuthorization(options =>
 
 
 // Configure Authentication and Authorization
-builder.Services.AddAuthentication(options => {
+builder.Services.AddAuthentication(options =>
+{
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(options => {
-    options.TokenValidationParameters = new TokenValidationParameters {
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
         ValidateIssuer = true,
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidateAudience = true,
         ValidAudience = builder.Configuration["JWT:Audience"],
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigninKey"])),
-                RoleClaimType = ClaimTypes.Role // Ensure this is correctly set
+        RoleClaimType = ClaimTypes.Role // Ensure this is correctly set
 
     };
 })
